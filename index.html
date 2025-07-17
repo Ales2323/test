@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kleo Restaurant - Hotel Indigo Las Colinas</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hotel-logo {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .restaurant-name {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #f39c12;
+        }
+
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .service-selection {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .service-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .service-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-color: #f39c12;
+        }
+
+        .service-card.active {
+            border-color: #f39c12;
+            background: #fff8f0;
+        }
+
+        .service-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #f39c12;
+        }
+
+        .service-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .service-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .location-input {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #f39c12;
+        }
+
+        .continue-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .continue-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .hours-info {
+            margin: 20px;
+            padding: 15px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .hours-title {
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 5px;
+        }
+
+        .hours-text {
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        .footer-info {
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .service-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="hotel-logo">
+                <i class="fas fa-crown"></i> Hotel Indigo Las Colinas
+            </div>
+            <div class="restaurant-name">Kleo</div>
+            <div class="tagline">Neighborhood Kitchen & Bar</div>
+        </div>
+
+        <div class="service-selection">
+            <div class="service-title">Where would you like your order delivered?</div>
+            <div class="service-options">
+                <div class="service-card" onclick="selectService('room')">
+                    <div class="service-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="service-name">In-Room Dining</div>
+                    <div class="service-desc">Delivered to your room</div>
+                </div>
+                <div class="service-card" onclick="selectService('pool')">
+                    <div class="service-icon">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                    <div class="service-name">Poolside Service</div>
+                    <div class="service-desc">Pool deck & cabanas</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="location-input" id="locationForm" style="display: none;">
+            <div class="input-group" id="roomGroup" style="display: none;">
+                <label class="input-label" for="roomNumber">
+                    <i class="fas fa-door-open"></i> Room Number
+                </label>
+                <input type="text" id="roomNumber" class="input-field" placeholder="e.g., 325" maxlength="4">
+            </div>
+
+            <div class="input-group" id="poolGroup" style="display: none;">
+                <label class="input-label" for="poolLocation">
+                    <i class="fas fa-map-marker-alt"></i> Pool Area Location
+                </label>
+                <select id="poolLocation" class="input-field">
+                    <option value="">Select location...</option>
+                    <option value="main-pool">Main Pool Area</option>
+                    <option value="cabana-1">Cabana #1</option>
+                    <option value="cabana-2">Cabana #2</option>
+                    <option value="cabana-3">Cabana #3</option>
+                    <option value="cabana-4">Cabana #4</option>
+                    <option value="hot-tub">Hot Tub Area</option>
+                    <option value="pool-bar">Pool Bar Seating</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="guestName">
+                    <i class="fas fa-user"></i> Guest Name
+                </label>
+                <input type="text" id="guestName" class="input-field" placeholder="Your name" required>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="phoneNumber">
+                    <i class="fas fa-phone"></i> Phone Number
+                </label>
+                <input type="tel" id="phoneNumber" class="input-field" placeholder="(555) 123-4567">
+            </div>
+
+            <button class="continue-btn" onclick="proceedToMenu()" id="continueBtn" disabled>
+                Continue to Menu <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="hours-info">
+            <div class="hours-title">
+                <i class="fas fa-clock"></i> Service Hours
+            </div>
+            <div class="hours-text">
+                <strong>Room Service:</strong> 24/7<br>
+                <strong>Pool Service:</strong> 7:00 AM - 10:00 PM
+            </div>
+        </div>
+
+        <div class="footer-info">
+            <i class="fas fa-utensils"></i><br>
+            Questions? Call (972) 444-0000<br>
+            Or speak with any hotel team member
+        </div>
+    </div>
+
+    <script>
+        let selectedService = '';
+
+        function selectService(service) {
+            selectedService = service;
+            
+            // Remove active class from all cards
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to selected card
+            event.currentTarget.classList.add('active');
+            
+            // Show location form
+            document.getElementById('locationForm').style.display = 'block';
+            
+            // Show/hide appropriate input groups
+            if (service === 'room') {
+                document.getElementById('roomGroup').style.display = 'block';
+                document.getElementById('poolGroup').style.display = 'none';
+                document.getElementById('roomNumber').required = true;
+                document.getElementById('poolLocation').required = false;
+            } else {
+                document.getElementById('roomGroup').style.display = 'none';
+                document.getElementById('poolGroup').style.display = 'block';
+                document.getElementById('roomNumber').required = false;
+                document.getElementById('poolLocation').required = true;
+            }
+            
+            validateForm();
+        }
+
+        function validateForm() {
+            const guestName = document.getElementById('guestName').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const continueBtn = document.getElementById('continueBtn');
+            
+            let locationValid = false;
+            
+            if (selectedService === 'room') {
+                const roomNumber = document.getElementById('roomNumber').value.trim();
+                locationValid = roomNumber.length > 0;
+            } else if (selectedService === 'pool') {
+                const poolLocation = document.getElementById('poolLocation').value;
+                locationValid = poolLocation !== '';
+            }
+            
+            if (guestName && phoneNumber && locationValid) {
+                continueBtn.disabled = false;
+            } else {
+                continueBtn.disabled = true;
+            }
+        }
+
+        function proceedToMenu() {
+            const orderData = {
+                service: selectedService,
+                guestName: document.getElementById('guestName').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                timestamp: new Date().toISOString()
+            };
+
+            if (selectedService === 'room') {
+                orderData.roomNumber = document.getElementById('roomNumber').value;
+            } else {
+                orderData.poolLocation = document.getElementById('poolLocation').value;
+            }
+
+            // Store order data in localStorage
+            localStorage.setItem('kleoOrderData', JSON.stringify(orderData));
+            
+            // Redirect to menu page
+            window.location.href = 'menu.html';
+        }
+
+        // Add event listeners for form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('guestName').addEventListener('input', validateForm);
+            document.getElementById('phoneNumber').addEventListener('input', validateForm);
+            document.getElementById('roomNumber').addEventListener('input', validateForm);
+            document.getElementById('poolLocation').addEventListener('change', validateForm);
+        });
+    </script>
+</body>
+</html>

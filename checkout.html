@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Kleo Restaurant</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .restaurant-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f39c12;
+            margin-bottom: 5px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .order-summary {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 5px;
+        }
+
+        .delivery-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .order-items {
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .item-quantity {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .item-total {
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .order-total {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .total-final {
+            font-size: 20px;
+            font-weight: bold;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .special-instructions {
+            margin-bottom: 20px;
+        }
+
+        .instruction-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .instruction-input:focus {
+            outline: none;
+            border-color: #f39c12;
+        }
+
+        .action-buttons {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .estimated-time {
+            text-align: center;
+            padding: 15px;
+            background: #e8f5e8;
+            color: #27ae60;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .time-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 90%;
+            width: 350px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .modal-text {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .order-number {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="restaurant-name">Kleo</div>
+            <div class="page-title">Order Confirmation</div>
+        </div>
+
+        <div class="order-summary">
+            <div class="section-title">Delivery Information</div>
+            <div class="delivery-info" id="deliveryInfo">
+                <!-- Delivery info will be populated by JavaScript -->
+            </div>
+
+            <div class="estimated-time">
+                <div class="time-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <strong>Estimated Delivery Time: 25-35 minutes</strong>
+            </div>
+
+            <div class="section-title">Order Items</div>
+            <div class="order-items" id="orderItems">
+                <!-- Order items will be populated by JavaScript -->
+            </div>
+
+            <div class="order-total" id="orderTotal">
+                <!-- Order total will be populated by JavaScript -->
+            </div>
+
+            <div class="special-instructions">
+                <div class="section-title">Special Instructions (Optional)</div>
+                <textarea 
+                    id="specialInstructions" 
+                    class="instruction-input" 
+                    placeholder="Any special requests or dietary needs? (e.g., extra sauce, no onions, etc.)"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="submitOrder()">
+                <i class="fas fa-check-circle"></i> Confirm & Place Order
+            </button>
+            <button class="btn btn-secondary" onclick="goBackToMenu()">
+                <i class="fas fa-arrow-left"></i> Back to Menu
+            </button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="modal-title">Order Confirmed!</div>
+            <div class="modal-text">
+                Your order has been successfully submitted and sent to our kitchen.
+            </div>
+            <div class="order-number" id="orderNumber">
+                Order #: KLEO-<span id="orderNumberValue"></span>
+            </div>
+            <div class="modal-text">
+                You will receive updates about your order status. 
+                <br><br>
+                <strong>Estimated delivery: 25-35 minutes</strong>
+            </div>
+            <button class="btn btn-primary" onclick="closeModal()">
+                <i class="fas fa-home"></i> Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let orderData = {};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedData = localStorage.getItem('kleoOrderData');
+            if (storedData) {
+                orderData = JSON.parse(storedData);
+                populateOrderSummary();
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function populateOrderSummary() {
+            // Populate delivery info
+            const deliveryInfo = document.getElementById('deliveryInfo');
+            let locationText = '';
+            if (orderData.service === 'room') {
+                locationText = `Room ${orderData.roomNumber}`;
+            } else {
+                locationText = orderData.poolLocation.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+            }
+
+            deliveryInfo.innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">Service Type:</span>
+                    <span>${orderData.service === 'room' ? 'In-Room Dining' : 'Poolside Service'}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Delivery To:</span>
+                    <span>${locationText}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Guest Name:</span>
+                    <span>${orderData.guestName}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone:</span>
+                    <span>${orderData.phoneNumber}</span>
+                </div>
+            `;
+
+            // Populate order items
+            const orderItems = document.getElementById('orderItems');
+            let itemsHTML = '';
+            Object.values(orderData.cart).forEach(item => {
+                const itemTotal = (item.price * item.quantity).toFixed(2);
+                itemsHTML += `
+                    <div class="order-item">
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-quantity">Quantity: ${item.quantity}</div>
+                        </div>
+                        <div class="item-total">$${itemTotal}</div>
+                    </div>
+                `;
+            });
+            orderItems.innerHTML = itemsHTML;
+
+            // Populate order total
+            const subtotal = orderData.orderTotal;
+            const tax = subtotal * 0.0825; // 8.25% Texas tax
+            const deliveryFee = orderData.service === 'room' ? 3.00 : 2.00;
+            const total = subtotal + tax + deliveryFee;
+
+            const orderTotal = document.getElementById('orderTotal');
+            orderTotal.innerHTML = `
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span>$${subtotal.toFixed(2)}</span>
+                </div>
+                <div class="total-row">
+                    <span>Tax (8.25%):</span>
+                    <span>$${tax.toFixed(2)}</span>
+                </div>
+                <div class="total-row">
+                    <span>Delivery Fee:</span>
+                    <span>$${deliveryFee.toFixed(2)}</span>
+                </div>
+                <div class="total-row total-final">
+                    <span>Total:</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+            `;
+
+            // Store final total
+            orderData.finalTotal = total;
+        }
+
+        function submitOrder() {
+            // Add special instructions
+            const specialInstructions = document.getElementById('specialInstructions').value;
+            orderData.specialInstructions = specialInstructions;
+            
+            // Generate order number
+            const orderNumber = Date.now().toString().slice(-6);
+            orderData.orderNumber = `KLEO-${orderNumber}`;
+            orderData.orderTime = new Date().toISOString();
+            orderData.status = 'pending';
+
+            // Store the order in localStorage (in real app, this would be sent to server)
+            const existingOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
+            existingOrders.push(orderData);
+            localStorage.setItem('kleoOrders', JSON.stringify(existingOrders));
+
+            // Show confirmation modal
+            document.getElementById('orderNumberValue').textContent = orderNumber;
+            document.getElementById('confirmationModal').style.display = 'flex';
+
+            // Clear the current order data
+            localStorage.removeItem('kleoOrderData');
+        }
+
+        function goBackToMenu() {
+            window.location.href = 'menu.html';
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            // Redirect to start for new order
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

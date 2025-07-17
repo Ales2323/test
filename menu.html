@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kleo Menu - Hotel Indigo Las Colinas</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            padding-bottom: 120px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .restaurant-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .service-info {
+            font-size: 12px;
+            opacity: 0.9;
+            text-align: right;
+        }
+
+        .guest-info {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .menu-categories {
+            display: flex;
+            overflow-x: auto;
+            background: white;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 80px;
+            z-index: 90;
+        }
+
+        .category-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin: 0 5px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn.active {
+            background: #f39c12;
+            border-color: #f39c12;
+            color: white;
+        }
+
+        .menu-section {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 5px;
+        }
+
+        .menu-item {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #f39c12;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .item-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-display {
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .cart-summary {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 15px 20px;
+            z-index: 200;
+        }
+
+        .cart-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cart-total {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .empty-cart {
+            display: none;
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+
+        .dietary-tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .dietary-tag {
+            background: #e8f5e8;
+            color: #27ae60;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .spicy-tag {
+            background: #ffe8e8;
+            color: #e74c3c;
+        }
+
+        .availability-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .available {
+            background: #e8f5e8;
+            color: #27ae60;
+        }
+
+        .limited {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        @media (max-width: 480px) {
+            .menu-categories {
+                padding: 10px 0;
+            }
+            
+            .category-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <div class="restaurant-name">Kleo Menu</div>
+                <div class="service-info" id="serviceInfo"></div>
+            </div>
+            <div class="guest-info" id="guestInfo"></div>
+        </div>
+
+        <div class="menu-categories">
+            <button class="category-btn active" onclick="showCategory('starters')">Starters</button>
+            <button class="category-btn" onclick="showCategory('mains')">Main Courses</button>
+            <button class="category-btn" onclick="showCategory('desserts')">Desserts</button>
+            <button class="category-btn" onclick="showCategory('beverages')">Beverages</button>
+            <button class="category-btn" onclick="showCategory('cocktails')">Cocktails</button>
+        </div>
+
+        <!-- Starters Section -->
+        <div id="starters" class="menu-section">
+            <h2 class="section-title">Starters</h2>
+            
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Truffle & Pecorino Fries</div>
+                    <div class="item-price">$14.00</div>
+                </div>
+                <div class="item-description">Hand-cut fries tossed with truffle oil, grated pecorino romano, and fresh herbs</div>
+                <div class="dietary-tags">
+                    <span class="dietary-tag">VEGETARIAN</span>
+                </div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('truffle-fries')">-</button>
+                        <span class="qty-display" id="truffle-fries-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('truffle-fries')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('truffle-fries', 'Truffle & Pecorino Fries', 14.00)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Chicken Wings</div>
+                    <div class="item-price">$19.00</div>
+                </div>
+                <div class="item-description">Battered & fried, tossed in your choice of Nashville Hot, BBQ or Buffalo sauce</div>
+                <div class="dietary-tags">
+                    <span class="dietary-tag spicy-tag">SPICY</span>
+                </div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('chicken-wings')">-</button>
+                        <span class="qty-display" id="chicken-wings-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('chicken-wings')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('chicken-wings', 'Chicken Wings', 19.00)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Gem Lettuce Caesar</div>
+                    <div class="item-price">$16.00</div>
+                </div>
+                <div class="item-description">Crisp gem lettuce, house-made caesar dressing, parmesan, garlic croutons</div>
+                <div class="dietary-tags">
+                    <span class="dietary-tag">VEGETARIAN</span>
+                </div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('caesar-salad')">-</button>
+                        <span class="qty-display" id="caesar-salad-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('caesar-salad')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('caesar-salad', 'Gem Lettuce Caesar', 16.00)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Courses Section -->
+        <div id="mains" class="menu-section" style="display: none;">
+            <h2 class="section-title">Main Courses</h2>
+            
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Kleo Burger</div>
+                    <div class="item-price">$24.00</div>
+                </div>
+                <div class="item-description">8oz wagyu beef, aged cheddar, caramelized onions, lettuce, tomato, house sauce, served with fries</div>
+                <div class="availability-status available">Available until 10:00 PM</div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('kleo-burger')">-</button>
+                        <span class="qty-display" id="kleo-burger-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('kleo-burger')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('kleo-burger', 'Kleo Burger', 24.00)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Grilled Salmon</div>
+                    <div class="item-price">$28.00</div>
+                </div>
+                <div class="item-description">Atlantic salmon, lemon herb quinoa, roasted vegetables, citrus beurre blanc</div>
+                <div class="dietary-tags">
+                    <span class="dietary-tag">GLUTEN-FREE</span>
+                </div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('grilled-salmon')">-</button>
+                        <span class="qty-display" id="grilled-salmon-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('grilled-salmon')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('grilled-salmon', 'Grilled Salmon', 28.00)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Braised Short Ribs</div>
+                    <div class="item-price">$32.00</div>
+                </div>
+                <div class="item-description">Slow-braised beef short ribs, garlic mashed potatoes, seasonal vegetables, red wine jus</div>
+                <div class="availability-status limited">Limited availability</div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('short-ribs')">-</button>
+                        <span class="qty-display" id="short-ribs-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('short-ribs')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('short-ribs', 'Braised Short Ribs', 32.00)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desserts Section -->
+        <div id="desserts" class="menu-section" style="display: none;">
+            <h2 class="section-title">Desserts</h2>
+            
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Chocolate Lava Cake</div>
+                    <div class="item-price">$12.00</div>
+                </div>
+                <div class="item-description">Warm chocolate cake with molten center, vanilla ice cream, berry compote</div>
+                <div class="dietary-tags">
+                    <span class="dietary-tag">VEGETARIAN</span>
+                </div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('lava-cake')">-</button>
+                        <span class="qty-display" id="lava-cake-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('lava-cake')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('lava-cake', 'Chocolate Lava Cake', 12.00)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Texas Pecan Pie</div>
+                    <div class="item-price">$10.00</div>
+                </div>
+                <div class="item-description">House-made pecan pie with local Texas pecans, bourbon whipped cream</div>
+                <div class="dietary-tags">
+                    <span class="dietary-tag">VEGETARIAN</span>
+                </div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('pecan-pie')">-</button>
+                        <span class="qty-display" id="pecan-pie-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('pecan-pie')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('pecan-pie', 'Texas Pecan Pie', 10.00)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beverages Section -->
+        <div id="beverages" class="menu-section" style="display: none;">
+            <h2 class="section-title">Beverages</h2>
+            
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Freshly Brewed Coffee</div>
+                    <div class="item-price">$4.00</div>
+                </div>
+                <div class="item-description">Premium Colombian coffee, served hot or iced</div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('coffee')">-</button>
+                        <span class="qty-display" id="coffee-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('coffee')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('coffee', 'Freshly Brewed Coffee', 4.00)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Fresh Orange Juice</div>
+                    <div class="item-price">$6.00</div>
+                </div>
+                <div class="item-description">Freshly squeezed orange juice</div>
+                <div class="dietary-tags">
+                    <span class="dietary-tag">VEGAN</span>
+                </div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('orange-juice')">-</button>
+                        <span class="qty-display" id="orange-juice-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('orange-juice')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('orange-juice', 'Fresh Orange Juice', 6.00)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cocktails Section -->
+        <div id="cocktails" class="menu-section" style="display: none;">
+            <h2 class="section-title">Cocktails</h2>
+            
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Kleo Signature Margarita</div>
+                    <div class="item-price">$14.00</div>
+                </div>
+                <div class="item-description">Premium tequila, fresh lime, agave nectar, triple sec, salted rim</div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('margarita')">-</button>
+                        <span class="qty-display" id="margarita-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('margarita')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('margarita', 'Kleo Signature Margarita', 14.00)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="item-name">Old Fashioned</div>
+                    <div class="item-price">$16.00</div>
+                </div>
+                <div class="item-description">Bourbon whiskey, sugar, bitters, orange peel, served over ice</div>
+                <div class="item-actions">
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty('old-fashioned')">-</button>
+                        <span class="qty-display" id="old-fashioned-qty">0</span>
+                        <button class="qty-btn" onclick="increaseQty('old-fashioned')">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('old-fashioned', 'Old Fashioned', 16.00)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary" id="cartSummary">
+            <div class="empty-cart" id="emptyCart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Your cart is empty</p>
+            </div>
+            <div id="cartContent" style="display: none;">
+                <div class="cart-info">
+                    <span>Items: <span id="itemCount">0</span></span>
+                    <span class="cart-total">Total: $<span id="cartTotal">0.00</span></span>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">
+                    Place Order <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = {};
+        let orderData = {};
+
+        // Load order data from previous page
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedData = localStorage.getItem('kleoOrderData');
+            if (storedData) {
+                orderData = JSON.parse(storedData);
+                updateHeaderInfo();
+            } else {
+                // Redirect back if no order data
+                window.location.href = 'index.html';
+            }
+        });
+
+        function updateHeaderInfo() {
+            const serviceInfo = document.getElementById('serviceInfo');
+            const guestInfo = document.getElementById('guestInfo');
+            
+            if (orderData.service === 'room') {
+                serviceInfo.innerHTML = `<i class="fas fa-bed"></i> Room ${orderData.roomNumber}`;
+            } else {
+                serviceInfo.innerHTML = `<i class="fas fa-swimming-pool"></i> ${orderData.poolLocation.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+            }
+            
+            guestInfo.innerHTML = `<i class="fas fa-user"></i> ${orderData.guestName} • ${orderData.phoneNumber}`;
+        }
+
+        function showCategory(category) {
+            // Hide all sections
+            document.querySelectorAll('.menu-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(category).style.display = 'block';
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function increaseQty(itemId) {
+            const qtyDisplay = document.getElementById(itemId + '-qty');
+            let currentQty = parseInt(qtyDisplay.textContent);
+            currentQty++;
+            qtyDisplay.textContent = currentQty;
+        }
+
+        function decreaseQty(itemId) {
+            const qtyDisplay = document.getElementById(itemId + '-qty');
+            let currentQty = parseInt(qtyDisplay.textContent);
+            if (currentQty > 0) {
+                currentQty--;
+                qtyDisplay.textContent = currentQty;
+            }
+        }
+
+        function addToCart(itemId, itemName, price) {
+            const qtyDisplay = document.getElementById(itemId + '-qty');
+            const quantity = parseInt(qtyDisplay.textContent);
+            
+            if (quantity === 0) {
+                alert('Please select a quantity first');
+                return;
+            }
+
+            if (cart[itemId]) {
+                cart[itemId].quantity += quantity;
+            } else {
+                cart[itemId] = {
+                    name: itemName,
+                    price: price,
+                    quantity: quantity
+                };
+            }
+
+            // Reset quantity display
+            qtyDisplay.textContent = '0';
+            
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const itemCount = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+            const total = Object.values(cart).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            document.getElementById('itemCount').textContent = itemCount;
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+            
+            if (itemCount > 0) {
+                document.getElementById('emptyCart').style.display = 'none';
+                document.getElementById('cartContent').style.display = 'block';
+            } else {
+                document.getElementById('emptyCart').style.display = 'block';
+                document.getElementById('cartContent').style.display = 'none';
+            }
+        }
+
+        function proceedToCheckout() {
+            if (Object.keys(cart).length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+
+            // Store cart data
+            orderData.cart = cart;
+            orderData.orderTotal = Object.values(cart).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            localStorage.setItem('kleoOrderData', JSON.stringify(orderData));
+            
+            // Redirect to checkout
+            window.location.href = 'checkout.html';
+        }
+    </script>
+</body>
+</html>
