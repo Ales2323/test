@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation - Kleo Restaurant</title>
+    <title>Your Payment - KLEO Restaurant</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -14,67 +14,77 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
-            background: #1e1e2e;
+            background: white;
             min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
+            background: #2c3e50;
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .restaurant-name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #f39c12;
-            margin-bottom: 5px;
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .page-title {
-            font-size: 18px;
-            opacity: 0.9;
+            font-size: 20px;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
         }
 
-        .order-summary {
+        /* Main Content */
+        .main-content {
             padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
 
-        .section-title {
+        /* Order Summary Section */
+        .order-summary {
+            background: white;
+            border: 1px solid #ecf0f1;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .summary-title {
             font-size: 18px;
             font-weight: bold;
+            color: #2c3e50;
             margin-bottom: 15px;
-            color: #e0e0e0;
+            padding-bottom: 10px;
             border-bottom: 2px solid #f39c12;
-            padding-bottom: 5px;
-        }
-
-        .delivery-info {
-            background: #374151;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #f39c12;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .info-label {
-            font-weight: bold;
-            color: #e0e0e0;
         }
 
         .order-items {
@@ -85,8 +95,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #4b5563;
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
         }
 
         .item-details {
@@ -95,380 +105,584 @@
 
         .item-name {
             font-weight: bold;
-            color: #e0e0e0;
+            color: #2c3e50;
+            margin-bottom: 2px;
         }
 
         .item-quantity {
-            color: #9ca3af;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #f39c12;
+            font-size: 16px;
+        }
+
+        .price-breakdown {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
             font-size: 14px;
         }
 
-        .item-total {
+        .price-row.total {
             font-weight: bold;
-            color: #f39c12;
-        }
-
-        .order-total {
-            background: #0f172a;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        .total-final {
-            font-size: 20px;
-            font-weight: bold;
-            border-top: 1px solid rgba(255,255,255,0.3);
+            font-size: 18px;
+            color: #2c3e50;
+            border-top: 2px solid #ecf0f1;
             padding-top: 10px;
             margin-top: 10px;
         }
 
-        .special-instructions {
+        .payment-instruction {
+            background: #e8f5e8;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            border-left: 4px solid #27ae60;
+        }
+
+        /* Customer Details Section */
+        .customer-details {
+            background: white;
+            border: 1px solid #ecf0f1;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .details-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .details-description {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .instruction-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #4b5563;
-            border-radius: 8px;
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
             font-size: 14px;
-            resize: vertical;
-            min-height: 80px;
-            background: #374151;
-            color: #e0e0e0;
         }
 
-        .instruction-input:focus {
+        .required-indicator {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background: white;
+            color: #2c3e50;
+        }
+
+        .form-input:focus {
             outline: none;
             border-color: #f39c12;
         }
 
-        .instruction-input::placeholder {
-            color: #9ca3af;
+        .form-input::placeholder {
+            color: #bdc3c7;
         }
 
-        .action-buttons {
-            padding: 20px;
-            background: #2a2a3e;
-        }
-
-        .btn {
+        .submit-btn {
             width: 100%;
-            padding: 15px;
+            background: #2c3e50;
+            color: white;
             border: none;
+            padding: 15px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin-bottom: 10px;
             transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-        }
-
-        .btn-primary:hover {
+        .submit-btn:hover {
+            background: #34495e;
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
         }
 
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .estimated-time {
+        /* Footer */
+        .footer {
+            padding: 20px;
             text-align: center;
-            padding: 15px;
-            background: #1f2937;
-            color: #10b981;
-            margin-bottom: 20px;
-            border-radius: 8px;
+            color: #7f8c8d;
+            font-size: 12px;
+            background: #ecf0f1;
+            border-top: 1px solid #bdc3c7;
         }
 
-        .time-icon {
-            font-size: 20px;
-            margin-bottom: 5px;
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
         }
 
-        .confirmation-modal {
+        .privacy-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #3498db;
+            border-radius: 50%;
+            color: white;
+            font-size: 10px;
+            line-height: 16px;
+            margin-left: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .order-summary,
+            .customer-details {
+                padding: 15px;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+
+        .loading-spinner {
+            font-size: 30px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+            color: #f39c12;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Modal */
+        .success-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.5);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 10000;
         }
 
         .modal-content {
-            background: #1e1e2e;
+            background: white;
             padding: 30px;
             border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
             text-align: center;
-            max-width: 90%;
-            width: 350px;
-            border: 1px solid #374151;
-        }
-
-        .success-icon {
-            font-size: 60px;
-            color: #27ae60;
-            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .modal-title {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
-            color: #e0e0e0;
+            color: #2c3e50;
+            margin-bottom: 15px;
         }
 
-        .modal-text {
-            color: #9ca3af;
+        .modal-message {
+            color: #7f8c8d;
             margin-bottom: 20px;
             line-height: 1.5;
         }
 
-        .order-number {
-            background: #374151;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            color: #f39c12;
+        .order-info {
+            background: #f8f9fa;
+            border: 2px dotted #bdc3c7;
+            padding: 15px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .order-info-row {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .order-info-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .modal-btn {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
-            <div class="restaurant-name">Kleo</div>
-            <div class="page-title">Order Confirmation</div>
+            <div class="header-content">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Cart
+                </button>
+                <div class="page-title">Your Payment</div>
+            </div>
         </div>
 
-        <div class="order-summary">
-            <div class="section-title">Delivery Information</div>
-            <div class="delivery-info" id="deliveryInfo">
-                <!-- Delivery info will be populated by JavaScript -->
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner"></i>
             </div>
+            <div>Loading your order...</div>
+        </div>
 
-            <div class="estimated-time">
-                <div class="time-icon">
-                    <i class="fas fa-clock"></i>
+        <!-- Main Content -->
+        <div id="mainContent" class="main-content" style="display: none;">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="summary-title">Order Summary</div>
+                <div class="order-items" id="orderItems">
+                    <!-- Order items will be populated here -->
                 </div>
-                <strong>Estimated Delivery Time: 25-35 minutes</strong>
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Delivery Fee</span>
+                        <span id="deliveryFee">$4.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Tax</span>
+                        <span id="tax">$0.00</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                </div>
+                <div class="payment-instruction">
+                    Pay by cash, card or charge it to your room when your order arrives.
+                </div>
             </div>
 
-            <div class="section-title">Order Items</div>
-            <div class="order-items" id="orderItems">
-                <!-- Order items will be populated by JavaScript -->
-            </div>
-
-            <div class="order-total" id="orderTotal">
-                <!-- Order total will be populated by JavaScript -->
-            </div>
-
-            <div class="special-instructions">
-                <div class="section-title">Special Instructions (Optional)</div>
-                <textarea 
-                    id="specialInstructions" 
-                    class="instruction-input" 
-                    placeholder="Any special requests or dietary needs? (e.g., extra sauce, no onions, etc.)"
-                ></textarea>
+            <!-- Customer Details -->
+            <div class="customer-details">
+                <div class="details-title">Pay Later</div>
+                <div class="details-description">
+                    Please enter your details below. We will only use this information to contact you about your order and for no other purpose.
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        Room Number
+                        <span class="required-indicator">Required</span>
+                    </label>
+                    <input type="text" id="roomNumber" class="form-input" placeholder="Enter your room number">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        First Name
+                        <span class="required-indicator">Required</span>
+                    </label>
+                    <input type="text" id="firstName" class="form-input" placeholder="Enter your first name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        Last Name
+                        <span class="required-indicator">Required</span>
+                    </label>
+                    <input type="text" id="lastName" class="form-input" placeholder="Enter your last name">
+                </div>
+                
+                <button class="submit-btn" onclick="submitOrder()">SUBMIT ORDER</button>
             </div>
         </div>
 
-        <div class="action-buttons">
-            <button class="btn btn-primary" onclick="submitOrder()">
-                <i class="fas fa-check-circle"></i> Confirm & Place Order
-            </button>
-            <button class="btn btn-secondary" onclick="goBackToMenu()">
-                <i class="fas fa-arrow-left"></i> Back to Menu
-            </button>
+        <!-- Footer -->
+        <div class="footer">
+            Marriott's privacy policy & SMS policy regarding Internet information 
+            <span class="privacy-icon">✓</span> 
+            <a href="#">Your Privacy Choices</a>
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div class="confirmation-modal" id="confirmationModal">
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
         <div class="modal-content">
-            <div class="success-icon">
-                <i class="fas fa-check-circle"></i>
+            <div class="modal-title">Thank You</div>
+            <div class="modal-message">
+                Thank you for your order! You can find your order information below, or you can review more details in the Order History.
             </div>
-            <div class="modal-title">Order Confirmed!</div>
-            <div class="modal-text">
-                Your order has been successfully submitted and sent to our kitchen.
+            <div class="order-info">
+                <div class="order-info-row">
+                    <span class="order-info-label">Order Number:</span> 
+                    <span id="orderNumber">14229673</span>
+                </div>
+                <div class="order-info-row">
+                    <span class="order-info-label">Delivery to:</span> 
+                    <span id="deliveryLocation">Room 231</span>
+                </div>
+                <div class="order-info-row">
+                    <span class="order-info-label">Estimated delivery:</span> 
+                    <span id="estimatedDelivery">Today, 5:00pm - 5:30pm</span>
+                </div>
             </div>
-            <div class="order-number" id="orderNumber">
-                Order #: KLEO-<span id="orderNumberValue"></span>
-            </div>
-            <div class="modal-text">
-                You will receive updates about your order status. 
-                <br><br>
-                <strong>Estimated delivery: 25-35 minutes</strong>
-            </div>
-            <button class="btn btn-primary" onclick="closeModal()">
-                <i class="fas fa-home"></i> Close
-            </button>
+            <button class="modal-btn" onclick="closeModal()">OK</button>
         </div>
     </div>
 
     <script>
-        let orderData = {};
+        let cart = [];
+        let guestInfo = {};
+        let orderNumber = '';
 
+        // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
+            loadOrderData();
+        });
+
+        // Load order data from localStorage
+        function loadOrderData() {
             try {
-                const storedData = localStorage.getItem('kleoOrderData');
-                if (storedData) {
-                    orderData = JSON.parse(storedData);
-                    populateOrderSummary();
+                const cartData = localStorage.getItem('kleoCart');
+                const guestData = localStorage.getItem('kleoGuestInfo');
+                
+                if (cartData && guestData) {
+                    cart = JSON.parse(cartData);
+                    guestInfo = JSON.parse(guestData);
+                    
+                    // Pre-fill form with guest info
+                    document.getElementById('roomNumber').value = guestInfo.roomNumber || '';
+                    document.getElementById('firstName').value = guestInfo.firstName || '';
+                    document.getElementById('lastName').value = guestInfo.lastName || '';
+                    
+                    // Display order
+                    displayOrder();
+                    
+                    // Hide loading, show content
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'grid';
                 } else {
-                    console.warn('No order data found, redirecting to start');
-                    window.location.href = 'index.html';
+                    // No data found, redirect back
+                    showNotification('No order data found. Please start over.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
                 }
             } catch (error) {
                 console.error('Error loading order data:', error);
-                window.location.href = 'index.html';
+                showNotification('Error loading order data. Please try again.', 'error');
             }
-        });
+        }
 
-        function populateOrderSummary() {
-            // Populate delivery info
-            const deliveryInfo = document.getElementById('deliveryInfo');
+        // Display order items and calculate totals
+        function displayOrder() {
+            const orderItemsContainer = document.getElementById('orderItems');
+            orderItemsContainer.innerHTML = '';
             
-            deliveryInfo.innerHTML = `
-                <div class="info-row">
-                    <span class="info-label">Service Type:</span>
-                    <span>${orderData.serviceType}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Delivery To:</span>
-                    <span>${orderData.locationName}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Guest Name:</span>
-                    <span>${orderData.guestName}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Phone:</span>
-                    <span>${orderData.phoneNumber}</span>
-                </div>
-            `;
-
-            // Populate order items
-            const orderItems = document.getElementById('orderItems');
-            let itemsHTML = '';
-            Object.values(orderData.cart).forEach(item => {
-                const itemTotal = (item.price * item.quantity).toFixed(2);
-                itemsHTML += `
-                    <div class="order-item">
-                        <div class="item-details">
-                            <div class="item-name">${item.name}</div>
-                            <div class="item-quantity">Quantity: ${item.quantity}</div>
-                        </div>
-                        <div class="item-total">$${itemTotal}</div>
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-item';
+                itemElement.innerHTML = `
+                    <div class="item-details">
+                        <div class="item-name">${item.quantity} x ${item.name}</div>
+                        <div class="item-quantity">Quantity: ${item.quantity}</div>
                     </div>
+                    <div class="item-price">$${itemTotal.toFixed(2)}</div>
                 `;
+                orderItemsContainer.appendChild(itemElement);
             });
-            orderItems.innerHTML = itemsHTML;
-
-            // Populate order total
-            const subtotal = orderData.orderTotal;
-            const tax = subtotal * 0.0825; // 8.25% Texas tax
-            const deliveryFee = orderData.locationType === 'room' ? 3.00 : 2.00;
-            const total = subtotal + tax + deliveryFee;
-
-            const orderTotal = document.getElementById('orderTotal');
-            orderTotal.innerHTML = `
-                <div class="total-row">
-                    <span>Subtotal:</span>
-                    <span>$${subtotal.toFixed(2)}</span>
-                </div>
-                <div class="total-row">
-                    <span>Tax (8.25%):</span>
-                    <span>$${tax.toFixed(2)}</span>
-                </div>
-                <div class="total-row">
-                    <span>Delivery Fee:</span>
-                    <span>$${deliveryFee.toFixed(2)}</span>
-                </div>
-                <div class="total-row total-final">
-                    <span>Total:</span>
-                    <span>$${total.toFixed(2)}</span>
-                </div>
-            `;
-
-            // Store final total
-            orderData.finalTotal = total;
+            
+            // Calculate fees and totals
+            const deliveryFee = 4.00;
+            const tax = subtotal * 0.0825; // 8.25% tax rate
+            const total = subtotal + deliveryFee + tax;
+            
+            // Update display
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('deliveryFee').textContent = `$${deliveryFee.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
         }
 
+        // Submit order
         function submitOrder() {
+            const roomNumber = document.getElementById('roomNumber').value.trim();
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            
+            if (!roomNumber || !firstName || !lastName) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            // Generate order number
+            orderNumber = generateOrderNumber();
+            
+            // Create order object
+            const order = {
+                id: orderNumber,
+                roomNumber: roomNumber,
+                firstName: firstName,
+                lastName: lastName,
+                phoneNumber: guestInfo.phoneNumber || '',
+                items: cart,
+                subtotal: parseFloat(document.getElementById('subtotal').textContent.replace('$', '')),
+                deliveryFee: 4.00,
+                tax: parseFloat(document.getElementById('tax').textContent.replace('$', '')),
+                total: parseFloat(document.getElementById('total').textContent.replace('$', '')),
+                status: 'pending',
+                timestamp: new Date().toISOString(),
+                deliveryLocation: guestInfo.deliveryLocation || 'Room',
+                estimatedDelivery: calculateEstimatedDelivery()
+            };
+            
+            // Save order to localStorage (simulating database)
+            saveOrder(order);
+            
+            // Show success modal
+            showSuccessModal(order);
+            
+            // Clear cart
+            localStorage.removeItem('kleoCart');
+            localStorage.removeItem('kleoGuestInfo');
+        }
+
+        // Generate random order number
+        function generateOrderNumber() {
+            return Math.floor(10000000 + Math.random() * 90000000).toString();
+        }
+
+        // Calculate estimated delivery time
+        function calculateEstimatedDelivery() {
+            const now = new Date();
+            const deliveryTime = new Date(now.getTime() + (30 * 60000)); // 30 minutes from now
+            
+            const hours = deliveryTime.getHours();
+            const minutes = deliveryTime.getMinutes();
+            const ampm = hours >= 12 ? 'pm' : 'am';
+            const displayHours = hours % 12 || 12;
+            const displayMinutes = minutes.toString().padStart(2, '0');
+            
+            return `Today, ${displayHours}:${displayMinutes}${ampm} - ${displayHours}:${(minutes + 30).toString().padStart(2, '0')}${ampm}`;
+        }
+
+        // Save order to localStorage
+        function saveOrder(order) {
             try {
-                // Add special instructions
-                const specialInstructions = document.getElementById('specialInstructions').value;
-                orderData.specialInstructions = specialInstructions;
-                
-                // Calculate final pricing
-                const subtotal = orderData.orderTotal;
-                const tax = subtotal * 0.0825; // 8.25% Texas tax
-                const deliveryFee = orderData.locationType === 'room' ? 3.00 : 2.00;
-                const finalTotal = subtotal + tax + deliveryFee;
-                
-                // Generate order number
-                const orderNumber = Date.now().toString().slice(-6);
-                orderData.orderNumber = `KLEO-${orderNumber}`;
-                orderData.orderTime = new Date().toISOString();
-                orderData.lastUpdated = new Date().toISOString();
-                orderData.status = 'pending';
-                
-                // Store calculated totals
-                orderData.subtotal = subtotal;
-                orderData.tax = tax;
-                orderData.deliveryFee = deliveryFee;
-                orderData.finalTotal = finalTotal;
-
-                // Store the order in localStorage (in real app, this would be sent to server)
                 const existingOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
-                existingOrders.push(orderData);
+                existingOrders.push(order);
                 localStorage.setItem('kleoOrders', JSON.stringify(existingOrders));
-
-                // Show confirmation modal
-                document.getElementById('orderNumberValue').textContent = orderNumber;
-                document.getElementById('confirmationModal').style.display = 'flex';
-
-                // Clear the current order data
-                localStorage.removeItem('kleoOrderData');
             } catch (error) {
-                console.error('Error submitting order:', error);
-                alert('There was an error submitting your order. Please try again or contact staff for assistance.');
+                console.error('Error saving order:', error);
             }
         }
 
-        function goBackToMenu() {
-            window.location.href = 'menu.html';
+        // Show success modal
+        function showSuccessModal(order) {
+            document.getElementById('orderNumber').textContent = order.id;
+            document.getElementById('deliveryLocation').textContent = order.deliveryLocation;
+            document.getElementById('estimatedDelivery').textContent = order.estimatedDelivery;
+            
+            document.getElementById('successModal').style.display = 'flex';
         }
 
+        // Close modal
         function closeModal() {
-            document.getElementById('confirmationModal').style.display = 'none';
-            // Redirect to start for new order
+            document.getElementById('successModal').style.display = 'none';
+            // Redirect to main page
             window.location.href = 'index.html';
+        }
+
+        // Go back to cart
+        function goBack() {
+            window.history.back();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${type === 'error' ? '#e74c3c' : '#27ae60'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 10000;
+                font-weight: bold;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
     </script>
 </body>
