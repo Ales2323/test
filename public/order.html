@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KLEO Restaurant - In Room Dining</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <i class="fas fa-bars menu-icon"></i>
+        </div>
+        <div class="header-center">
+            <h1>HOTEL INDIGO</h1>
+            <h2>KLEO RESTAURANT</h2>
+        </div>
+        <div class="header-right">
+            <i class="fas fa-shopping-cart cart-icon" id="cartIcon"></i>
+            <i class="fas fa-globe globe-icon"></i>
+            <div class="loyalty">
+                <i class="fas fa-star star-icon"></i>
+                <span>LOYALTY</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Info Bar -->
+    <div class="info-bar">
+        <div class="info-left">
+            <h3>In Room Dining</h3>
+            <div class="hours">
+                <i class="fas fa-clock"></i>
+                <span>• Open - Closes Today at 10:00pm</span>
+                <a href="#" class="more-info">More info ></a>
+            </div>
+        </div>
+        <div class="info-right">
+            <div class="delivery-info">
+                <div class="delivery-location">
+                    <span>Deliver to: <span id="deliveryLocation">Room</span></span>
+                    <a href="#" class="change-location" id="changeLocationBtn">
+                        <i class="fas fa-pencil-alt"></i>
+                        Change Location
+                    </a>
+                </div>
+                <div class="delivery-time">
+                    <span>Delivery time: ASAP</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary Menu Navigation -->
+    <nav class="primary-nav">
+        <button class="nav-btn" data-category="breakfast">Breakfast</button>
+        <button class="nav-btn active" data-category="all-day">ALL DAY DINING</button>
+        <button class="nav-btn" data-category="beverages">Beverages</button>
+    </nav>
+
+    <!-- Secondary Menu Navigation -->
+    <nav class="secondary-nav" id="secondaryNav">
+        <!-- Will be populated dynamically -->
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="availability-notice">
+            <i class="fas fa-clock availability-icon"></i>
+            <span>Available until 10:00pm today</span>
+        </div>
+
+        <div class="menu-container" id="menuContainer">
+            <!-- Menu items will be populated here -->
+        </div>
+    </main>
+
+    <!-- Cart Summary Bar -->
+    <div class="cart-summary" id="cartSummary">
+        <div class="cart-total">
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <div class="cart-button" id="viewCartBtn">
+            <span id="cartItemCount">(0)</span>
+            <span>VIEW CART ></span>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Your Cart</h3>
+                <i class="fas fa-times close-modal" id="closeCartModal"></i>
+            </div>
+            <div class="modal-body">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be populated here -->
+                </div>
+                <div class="cart-summary-details">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee:</span>
+                        <span>$4.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <span id="cartTax">$0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="cartTotalModal">$0.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="continueShopping">Continue Shopping</button>
+                <button class="btn-primary" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Detail Modal -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content item-modal">
+            <div class="modal-header">
+                <h3 id="itemModalTitle">Item Name</h3>
+                <span id="itemModalPrice">$0.00</span>
+                <i class="fas fa-times close-modal" id="closeItemModal"></i>
+            </div>
+            <div class="modal-body">
+                <div class="item-details">
+                    <div class="comments-section">
+                        <label>Enter your comments here:</label>
+                        <textarea id="itemComments" placeholder="Enter your text here." maxlength="60"></textarea>
+                        <div class="char-count">
+                            <span id="charCount">0</span>/60
+                        </div>
+                    </div>
+                    <div class="quantity-section">
+                        <label>Quantity:</label>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" id="decreaseQuantity">-</button>
+                            <span id="quantityDisplay">1</span>
+                            <button class="quantity-btn" id="increaseQuantity">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="item-total">
+                    <span id="itemTotalPrice">$0.00</span>
+                </div>
+                <button class="btn-primary" id="addToCartBtn">Add to cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content checkout-modal">
+            <div class="modal-header">
+                <h3>Your Payment</h3>
+            </div>
+            <div class="modal-body">
+                <div class="checkout-container">
+                    <div class="order-summary">
+                        <h4>Order Summary</h4>
+                        <div class="order-items" id="checkoutItems">
+                            <!-- Order items will be populated here -->
+                        </div>
+                        <div class="order-breakdown">
+                            <div class="breakdown-row">
+                                <span>Subtotal:</span>
+                                <span id="checkoutSubtotal">$0.00</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span>Delivery Fee:</span>
+                                <span>$4.00</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span>Tax:</span>
+                                <span id="checkoutTax">$0.00</span>
+                            </div>
+                            <hr>
+                            <div class="breakdown-row total">
+                                <span>Total:</span>
+                                <span id="checkoutTotal">$0.00</span>
+                            </div>
+                        </div>
+                        <div class="payment-note">
+                            Pay by cash, card or charge it to your room when your order arrives.
+                        </div>
+                    </div>
+                    <div class="customer-details">
+                        <h4>Pay Later</h4>
+                        <p>Please enter your details below. We will only use this information to contact you about your order and for no other purpose.</p>
+                        <form id="checkoutForm">
+                            <div class="form-group">
+                                <label>Room Number <span class="required">Required</span></label>
+                                <input type="text" id="roomNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label>First Name <span class="required">Required</span></label>
+                                <input type="text" id="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span class="required">Required</span></label>
+                                <input type="text" id="lastName" required>
+                            </div>
+                            <button type="submit" class="btn-primary">SUBMIT ORDER</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content confirmation-modal">
+            <div class="modal-header">
+                <h3>Thank You</h3>
+                <i class="fas fa-times close-modal" id="closeConfirmationModal"></i>
+            </div>
+            <div class="modal-body">
+                <p>Thank you for your order! You can find your order information below, or you can review more details in the Order History.</p>
+                <div class="order-info">
+                    <div class="info-row">
+                        <strong>Order Number</strong> <span id="orderNumber">12345678</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Delivery to:</strong> <span id="deliveryTo">Room 231</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Estimated delivery:</strong> <span id="estimatedDelivery">Today, 5:00pm - 5:30pm</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="okBtn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="order.js"></script>
+</body>
+</html>

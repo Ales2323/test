@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KLEO Restaurant - Admin Dashboard</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="header-left">
+            <h1>KLEO RESTAURANT</h1>
+            <h2>Admin Dashboard</h2>
+        </div>
+        <div class="header-right">
+            <div class="status-indicator">
+                <i class="fas fa-circle status-dot"></i>
+                <span>Live Orders</span>
+            </div>
+            <div class="admin-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Admin</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="admin-nav">
+        <button class="nav-tab active" data-tab="orders">
+            <i class="fas fa-clipboard-list"></i>
+            Orders
+        </button>
+        <button class="nav-tab" data-tab="qr-codes">
+            <i class="fas fa-qrcode"></i>
+            QR Codes
+        </button>
+        <button class="nav-tab" data-tab="menu">
+            <i class="fas fa-utensils"></i>
+            Menu Management
+        </button>
+        <button class="nav-tab" data-tab="reports">
+            <i class="fas fa-chart-bar"></i>
+            Reports
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+        <!-- Orders Tab -->
+        <div class="tab-content active" id="orders-tab">
+            <div class="orders-header">
+                <h3>Live Orders</h3>
+                <div class="order-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                    <button class="filter-btn" data-filter="preparing">Preparing</button>
+                    <button class="filter-btn" data-filter="ready">Ready</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                </div>
+            </div>
+            
+            <div class="orders-grid" id="ordersGrid">
+                <!-- Orders will be populated here -->
+            </div>
+        </div>
+
+        <!-- QR Codes Tab -->
+        <div class="tab-content" id="qr-codes-tab">
+            <div class="qr-header">
+                <h3>QR Code Management</h3>
+                <button class="btn-primary" id="addQRBtn">
+                    <i class="fas fa-plus"></i>
+                    Add New QR Code
+                </button>
+            </div>
+            
+            <div class="qr-codes-grid" id="qrCodesGrid">
+                <!-- QR codes will be populated here -->
+            </div>
+        </div>
+
+        <!-- Menu Management Tab -->
+        <div class="tab-content" id="menu-tab">
+            <div class="menu-header">
+                <h3>Menu Management</h3>
+                <button class="btn-primary" id="addMenuItemBtn">
+                    <i class="fas fa-plus"></i>
+                    Add Menu Item
+                </button>
+            </div>
+            
+            <div class="menu-categories">
+                <div class="category-section">
+                    <h4>STARTERS</h4>
+                    <div class="menu-items-list" id="startersList">
+                        <!-- Menu items will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="category-section">
+                    <h4>10' HEARTH FIRED PIZZAS</h4>
+                    <div class="menu-items-list" id="pizzasList">
+                        <!-- Menu items will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="category-section">
+                    <h4>ADD-ONS</h4>
+                    <div class="menu-items-list" id="addonsList">
+                        <!-- Menu items will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="category-section">
+                    <h4>SIDES</h4>
+                    <div class="menu-items-list" id="sidesList">
+                        <!-- Menu items will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div class="tab-content" id="reports-tab">
+            <div class="reports-header">
+                <h3>Reports & Analytics</h3>
+                <div class="date-range">
+                    <input type="date" id="startDate">
+                    <span>to</span>
+                    <input type="date" id="endDate">
+                    <button class="btn-secondary" id="updateReports">Update</button>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Total Orders</h4>
+                        <span id="totalOrders">0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Total Revenue</h4>
+                        <span id="totalRevenue">$0.00</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Pending Orders</h4>
+                        <span id="pendingOrders">0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Completed Orders</h4>
+                        <span id="completedOrders">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h4>Popular Items</h4>
+                    <div class="popular-items" id="popularItems">
+                        <!-- Popular items will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>Order Status Distribution</h4>
+                    <div class="status-chart" id="statusChart">
+                        <!-- Status chart will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add QR Code Modal -->
+    <div class="modal" id="addQRModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New QR Code</h3>
+                <i class="fas fa-times close-modal" id="closeAddQRModal"></i>
+            </div>
+            <div class="modal-body">
+                <form id="addQRForm">
+                    <div class="form-group">
+                        <label>Location Name</label>
+                        <input type="text" id="qrLocationName" required placeholder="e.g., Room 231, Cabana 1">
+                    </div>
+                    <div class="form-group">
+                        <label>Location Type</label>
+                        <select id="qrLocationType" required>
+                            <option value="">Select type</option>
+                            <option value="room">Room</option>
+                            <option value="pool">Pool</option>
+                            <option value="cabana">Cabana</option>
+                            <option value="lobby">Lobby</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelAddQR">Cancel</button>
+                <button class="btn-primary" id="saveQRCode">Generate QR Code</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Menu Item Modal -->
+    <div class="modal" id="addMenuItemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Menu Item</h3>
+                <i class="fas fa-times close-modal" id="closeAddMenuItemModal"></i>
+            </div>
+            <div class="modal-body">
+                <form id="addMenuItemForm">
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input type="text" id="itemName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="itemDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Price ($)</label>
+                        <input type="number" id="itemPrice" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="itemCategory" required>
+                            <option value="">Select category</option>
+                            <option value="STARTERS">STARTERS</option>
+                            <option value="10' HEARTH FIRED PIZZAS">10' HEARTH FIRED PIZZAS</option>
+                            <option value="LARGE PLATES">LARGE PLATES</option>
+                            <option value="ADD-ONS">ADD-ONS</option>
+                            <option value="SIDES">SIDES</option>
+                            <option value="DESSERTS">DESSERTS</option>
+                            <option value="BEVERAGES">BEVERAGES</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="itemAvailable" checked>
+                            Available
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelAddMenuItem">Cancel</button>
+                <button class="btn-primary" id="saveMenuItem">Save Item</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal" id="orderDetailModal">
+        <div class="modal-content order-detail-modal">
+            <div class="modal-header">
+                <h3>Order Details</h3>
+                <i class="fas fa-times close-modal" id="closeOrderDetailModal"></i>
+            </div>
+            <div class="modal-body">
+                <div class="order-info">
+                    <div class="order-header">
+                        <div class="order-number">
+                            <strong>Order #</strong> <span id="detailOrderNumber"></span>
+                        </div>
+                        <div class="order-status">
+                            <span id="detailOrderStatus"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-info">
+                        <h4>Customer Information</h4>
+                        <p><strong>Name:</strong> <span id="detailCustomerName"></span></p>
+                        <p><strong>Room:</strong> <span id="detailCustomerRoom"></span></p>
+                        <p><strong>Delivery Location:</strong> <span id="detailDeliveryLocation"></span></p>
+                    </div>
+                    
+                    <div class="order-items">
+                        <h4>Order Items</h4>
+                        <div id="detailOrderItems">
+                            <!-- Order items will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="detailSubtotal"></span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Delivery Fee:</span>
+                            <span id="detailDeliveryFee"></span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax:</span>
+                            <span id="detailTax"></span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="detailTotal"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="status-actions">
+                    <button class="btn-secondary" id="markPreparing">Mark Preparing</button>
+                    <button class="btn-secondary" id="markReady">Mark Ready</button>
+                    <button class="btn-primary" id="markCompleted">Mark Completed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
