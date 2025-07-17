@@ -334,11 +334,17 @@
         let orderData = {};
 
         document.addEventListener('DOMContentLoaded', function() {
-            const storedData = localStorage.getItem('kleoOrderData');
-            if (storedData) {
-                orderData = JSON.parse(storedData);
-                populateOrderSummary();
-            } else {
+            try {
+                const storedData = localStorage.getItem('kleoOrderData');
+                if (storedData) {
+                    orderData = JSON.parse(storedData);
+                    populateOrderSummary();
+                } else {
+                    console.warn('No order data found, redirecting to start');
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                console.error('Error loading order data:', error);
                 window.location.href = 'index.html';
             }
         });
@@ -346,21 +352,15 @@
         function populateOrderSummary() {
             // Populate delivery info
             const deliveryInfo = document.getElementById('deliveryInfo');
-            let locationText = '';
-            if (orderData.service === 'room') {
-                locationText = `Room ${orderData.roomNumber}`;
-            } else {
-                locationText = orderData.poolLocation.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
-            }
-
+            
             deliveryInfo.innerHTML = `
                 <div class="info-row">
                     <span class="info-label">Service Type:</span>
-                    <span>${orderData.service === 'room' ? 'In-Room Dining' : 'Poolside Service'}</span>
+                    <span>${orderData.serviceType}</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Delivery To:</span>
-                    <span>${locationText}</span>
+                    <span>${orderData.locationName}</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Guest Name:</span>
@@ -392,7 +392,7 @@
             // Populate order total
             const subtotal = orderData.orderTotal;
             const tax = subtotal * 0.0825; // 8.25% Texas tax
-            const deliveryFee = orderData.service === 'room' ? 3.00 : 2.00;
+            const deliveryFee = orderData.locationType === 'room' ? 3.00 : 2.00;
             const total = subtotal + tax + deliveryFee;
 
             const orderTotal = document.getElementById('orderTotal');
@@ -420,27 +420,32 @@
         }
 
         function submitOrder() {
-            // Add special instructions
-            const specialInstructions = document.getElementById('specialInstructions').value;
-            orderData.specialInstructions = specialInstructions;
-            
-            // Generate order number
-            const orderNumber = Date.now().toString().slice(-6);
-            orderData.orderNumber = `KLEO-${orderNumber}`;
-            orderData.orderTime = new Date().toISOString();
-            orderData.status = 'pending';
+            try {
+                // Add special instructions
+                const specialInstructions = document.getElementById('specialInstructions').value;
+                orderData.specialInstructions = specialInstructions;
+                
+                // Generate order number
+                const orderNumber = Date.now().toString().slice(-6);
+                orderData.orderNumber = `KLEO-${orderNumber}`;
+                orderData.orderTime = new Date().toISOString();
+                orderData.status = 'pending';
 
-            // Store the order in localStorage (in real app, this would be sent to server)
-            const existingOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
-            existingOrders.push(orderData);
-            localStorage.setItem('kleoOrders', JSON.stringify(existingOrders));
+                // Store the order in localStorage (in real app, this would be sent to server)
+                const existingOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
+                existingOrders.push(orderData);
+                localStorage.setItem('kleoOrders', JSON.stringify(existingOrders));
 
-            // Show confirmation modal
-            document.getElementById('orderNumberValue').textContent = orderNumber;
-            document.getElementById('confirmationModal').style.display = 'flex';
+                // Show confirmation modal
+                document.getElementById('orderNumberValue').textContent = orderNumber;
+                document.getElementById('confirmationModal').style.display = 'flex';
 
-            // Clear the current order data
-            localStorage.removeItem('kleoOrderData');
+                // Clear the current order data
+                localStorage.removeItem('kleoOrderData');
+            } catch (error) {
+                console.error('Error submitting order:', error);
+                alert('There was an error submitting your order. Please try again or contact staff for assistance.');
+            }
         }
 
         function goBackToMenu() {

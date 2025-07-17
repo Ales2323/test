@@ -210,12 +210,12 @@
 
         .customer-name {
             font-weight: bold;
-            color: #2c3e50;
+            color: #e0e0e0;
             margin-bottom: 3px;
         }
 
         .delivery-location {
-            color: #666;
+            color: #9ca3af;
             font-size: 14px;
             margin-bottom: 3px;
         }
@@ -230,8 +230,8 @@
             text-align: right;
             font-size: 12px;
             padding: 4px 8px;
-            background: #e8f5e8;
-            color: #27ae60;
+            background: #1f2937;
+            color: #10b981;
             border-radius: 10px;
             align-self: flex-start;
         }
@@ -465,17 +465,25 @@
         });
 
         function loadOrders() {
-            const storedOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
-            
-            // Check for new orders
-            if (storedOrders.length > lastOrderCount) {
-                showNewOrderNotification();
+            try {
+                const storedOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
+                
+                // Check for new orders
+                if (storedOrders.length > lastOrderCount) {
+                    showNewOrderNotification();
+                }
+                lastOrderCount = storedOrders.length;
+                
+                orders = storedOrders.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime));
+                updateStats();
+                displayOrders();
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                // Still try to display something even if there's an error
+                orders = [];
+                updateStats();
+                displayOrders();
             }
-            lastOrderCount = storedOrders.length;
-            
-            orders = storedOrders.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime));
-            updateStats();
-            displayOrders();
         }
 
         function updateStats() {
@@ -519,9 +527,9 @@
                 timerHTML = `<div class="order-timer" style="color: ${timerColor}">⏱️ ${timeSinceOrder} minutes ago</div>`;
             }
 
-            const locationText = order.service === 'room' 
-                ? `Room ${order.roomNumber}` 
-                : order.poolLocation.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+            const locationText = order.locationType === 'room' 
+                ? order.locationName 
+                : order.locationName;
 
             const itemsHTML = Object.values(order.cart).map(item => `
                 <div class="item-row">
@@ -557,7 +565,7 @@
                                 <div class="customer-phone"><i class="fas fa-phone"></i> ${order.phoneNumber}</div>
                             </div>
                             <div class="service-type">
-                                ${order.service === 'room' ? 'Room Service' : 'Pool Service'}
+                                ${order.serviceType}
                             </div>
                         </div>
 
@@ -609,17 +617,24 @@
         }
 
         function updateOrderStatus(orderNumber, newStatus) {
-            const orderIndex = orders.findIndex(order => order.orderNumber === orderNumber);
-            if (orderIndex !== -1) {
-                orders[orderIndex].status = newStatus;
-                orders[orderIndex].lastUpdated = new Date().toISOString();
-                
-                // Update localStorage
-                localStorage.setItem('kleoOrders', JSON.stringify(orders));
-                
-                // Refresh display
-                updateStats();
-                displayOrders();
+            try {
+                const orderIndex = orders.findIndex(order => order.orderNumber === orderNumber);
+                if (orderIndex !== -1) {
+                    orders[orderIndex].status = newStatus;
+                    orders[orderIndex].lastUpdated = new Date().toISOString();
+                    
+                    // Update localStorage
+                    localStorage.setItem('kleoOrders', JSON.stringify(orders));
+                    
+                    // Refresh display
+                    updateStats();
+                    displayOrders();
+                } else {
+                    console.warn('Order not found:', orderNumber);
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                alert('There was an error updating the order status. Please refresh the page and try again.');
             }
         }
 

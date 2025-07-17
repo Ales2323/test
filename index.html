@@ -325,21 +325,27 @@
 
         function detectLocationFromQR() {
             const urlParams = new URLSearchParams(window.location.search);
-            const location = urlParams.get('location') || urlParams.get('room') || 'room-301'; // Default for testing
+            const location = urlParams.get('location') || urlParams.get('room');
             
             setTimeout(() => {
-                let locationKey = location;
+                let locationKey = 'room-301'; // Default fallback
                 
-                if (urlParams.get('room')) {
-                    locationKey = `room-${urlParams.get('room')}`;
-                } else if (urlParams.get('type') === 'pool') {
-                    locationKey = `pool-${urlParams.get('location') || 'main'}`;
-                }
+                try {
+                    if (urlParams.get('room')) {
+                        locationKey = `room-${urlParams.get('room')}`;
+                    } else if (urlParams.get('location')) {
+                        locationKey = `pool-${urlParams.get('location')}`;
+                    }
 
-                if (locationData[locationKey]) {
-                    displayLocation(locationKey);
-                } else {
-                    // Default to room 301 for demo
+                    if (locationData[locationKey]) {
+                        displayLocation(locationKey);
+                    } else {
+                        // Fallback to default location
+                        console.warn('Location not found, using default:', locationKey);
+                        displayLocation('room-301');
+                    }
+                } catch (error) {
+                    console.error('Error detecting location:', error);
                     displayLocation('room-301');
                 }
             }, 1000);
@@ -370,20 +376,28 @@
         }
 
         function proceedToMenu() {
-            if (!detectedLocation) return;
+            if (!detectedLocation) {
+                alert('Location not detected. Please try scanning the QR code again.');
+                return;
+            }
 
-            const orderData = {
-                locationKey: detectedLocation.key,
-                locationType: detectedLocation.type,
-                locationName: detectedLocation.name,
-                serviceType: detectedLocation.service,
-                guestName: document.getElementById('guestName').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                timestamp: new Date().toISOString()
-            };
+            try {
+                const orderData = {
+                    locationKey: detectedLocation.key,
+                    locationType: detectedLocation.type,
+                    locationName: detectedLocation.name,
+                    serviceType: detectedLocation.service,
+                    guestName: document.getElementById('guestName').value.trim(),
+                    phoneNumber: document.getElementById('phoneNumber').value.trim(),
+                    timestamp: new Date().toISOString()
+                };
 
-            localStorage.setItem('kleoOrderData', JSON.stringify(orderData));
-            window.location.href = 'menu.html';
+                localStorage.setItem('kleoOrderData', JSON.stringify(orderData));
+                window.location.href = 'menu.html';
+            } catch (error) {
+                console.error('Error saving order data:', error);
+                alert('There was an error saving your information. Please try again.');
+            }
         }
     </script>
 </body>

@@ -565,12 +565,18 @@
 
         // Load order data from previous page
         document.addEventListener('DOMContentLoaded', function() {
-            const storedData = localStorage.getItem('kleoOrderData');
-            if (storedData) {
-                orderData = JSON.parse(storedData);
-                updateHeaderInfo();
-            } else {
-                // Redirect back if no order data
+            try {
+                const storedData = localStorage.getItem('kleoOrderData');
+                if (storedData) {
+                    orderData = JSON.parse(storedData);
+                    updateHeaderInfo();
+                } else {
+                    // Redirect back if no order data
+                    console.warn('No order data found, redirecting to start');
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                console.error('Error loading order data:', error);
                 window.location.href = 'index.html';
             }
         });
@@ -579,10 +585,10 @@
             const serviceInfo = document.getElementById('serviceInfo');
             const guestInfo = document.getElementById('guestInfo');
             
-            if (orderData.service === 'room') {
-                serviceInfo.innerHTML = `<i class="fas fa-bed"></i> Room ${orderData.roomNumber}`;
+            if (orderData.locationType === 'room') {
+                serviceInfo.innerHTML = `<i class="fas fa-bed"></i> ${orderData.locationName}`;
             } else {
-                serviceInfo.innerHTML = `<i class="fas fa-swimming-pool"></i> ${orderData.poolLocation.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+                serviceInfo.innerHTML = `<i class="fas fa-swimming-pool"></i> ${orderData.locationName}`;
             }
             
             guestInfo.innerHTML = `<i class="fas fa-user"></i> ${orderData.guestName} • ${orderData.phoneNumber}`;
@@ -667,13 +673,18 @@
                 return;
             }
 
-            // Store cart data
-            orderData.cart = cart;
-            orderData.orderTotal = Object.values(cart).reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            localStorage.setItem('kleoOrderData', JSON.stringify(orderData));
-            
-            // Redirect to checkout
-            window.location.href = 'checkout.html';
+            try {
+                // Store cart data
+                orderData.cart = cart;
+                orderData.orderTotal = Object.values(cart).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                localStorage.setItem('kleoOrderData', JSON.stringify(orderData));
+                
+                // Redirect to checkout
+                window.location.href = 'checkout.html';
+            } catch (error) {
+                console.error('Error saving cart data:', error);
+                alert('There was an error processing your cart. Please try again.');
+            }
         }
     </script>
 </body>

@@ -59,7 +59,7 @@
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #2c3e50;
+            color: #e0e0e0;
             border-bottom: 2px solid #f39c12;
             padding-bottom: 5px;
         }
@@ -72,21 +72,27 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #2c3e50;
+            color: #e0e0e0;
         }
 
         .form-input, .form-select {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e9ecef;
+            border: 2px solid #4b5563;
             border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.3s ease;
+            background: #374151;
+            color: #e0e0e0;
         }
 
         .form-input:focus, .form-select:focus {
             outline: none;
             border-color: #f39c12;
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
         }
 
         .form-row {
@@ -161,10 +167,11 @@
         }
 
         .bulk-generator {
-            background: white;
+            background: #1e1e2e;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #374151;
         }
 
         .bulk-options {
@@ -175,22 +182,23 @@
         }
 
         .bulk-option {
-            background: #f8f9fa;
+            background: #374151;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            color: #e0e0e0;
         }
 
         .bulk-option:hover {
-            background: #e9ecef;
+            background: #4b5563;
             border-color: #f39c12;
         }
 
         .bulk-option.selected {
-            background: #fff8f0;
+            background: #2a2a3e;
             border-color: #f39c12;
         }
 
@@ -201,16 +209,16 @@
         }
 
         .instruction-box {
-            background: #e8f5e8;
+            background: #1f2937;
             padding: 20px;
             border-radius: 8px;
-            border-left: 4px solid #27ae60;
+            border-left: 4px solid #10b981;
             margin-bottom: 20px;
         }
 
         .instruction-title {
             font-weight: bold;
-            color: #27ae60;
+            color: #10b981;
             margin-bottom: 10px;
         }
 
@@ -397,16 +405,16 @@
                     alert('Please enter a room number');
                     return;
                 }
-                qrData = `${window.location.origin}/index.html?type=room&room=${roomNumber}`;
+                qrData = `https://ales2323.github.io/test/?room=${roomNumber}`;
                 infoText = `Room Service QR Code for Room ${roomNumber}`;
                 currentLabel = qrLabel || `Room ${roomNumber} - Scan for Kleo Room Service`;
             } else if (qrType === 'pool') {
                 const poolLocation = document.getElementById('poolLocation').value;
-                qrData = `${window.location.origin}/index.html?type=pool&location=${poolLocation}`;
+                qrData = `https://ales2323.github.io/test/?location=${poolLocation}`;
                 infoText = `Pool Service QR Code for ${poolLocation.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
                 currentLabel = qrLabel || `${poolLocation.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} - Scan for Kleo Pool Service`;
             } else {
-                qrData = `${window.location.origin}/index.html`;
+                qrData = `https://ales2323.github.io/test/`;
                 infoText = 'General Access QR Code for Kleo Restaurant';
                 currentLabel = qrLabel || 'Scan for Kleo Restaurant Ordering';
             }
