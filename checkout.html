@@ -14,20 +14,20 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: #f8f9fa;
-            color: #333;
+            background: #1a1a2e;
+            color: #e0e0e0;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
-            background: white;
+            background: #1e1e2e;
             min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
+            background: linear-gradient(135deg, #0f172a, #1e293b);
             color: white;
             padding: 20px;
             text-align: center;
@@ -53,13 +53,13 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
-            color: #2c3e50;
+            color: #e0e0e0;
             border-bottom: 2px solid #f39c12;
             padding-bottom: 5px;
         }
 
         .delivery-info {
-            background: #f8f9fa;
+            background: #374151;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
@@ -74,7 +74,7 @@
 
         .info-label {
             font-weight: bold;
-            color: #2c3e50;
+            color: #e0e0e0;
         }
 
         .order-items {
@@ -86,7 +86,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #4b5563;
         }
 
         .item-details {
@@ -95,11 +95,11 @@
 
         .item-name {
             font-weight: bold;
-            color: #2c3e50;
+            color: #e0e0e0;
         }
 
         .item-quantity {
-            color: #666;
+            color: #9ca3af;
             font-size: 14px;
         }
 
@@ -109,7 +109,7 @@
         }
 
         .order-total {
-            background: #2c3e50;
+            background: #0f172a;
             color: white;
             padding: 15px;
             border-radius: 8px;
@@ -137,11 +137,13 @@
         .instruction-input {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e9ecef;
+            border: 2px solid #4b5563;
             border-radius: 8px;
             font-size: 14px;
             resize: vertical;
             min-height: 80px;
+            background: #374151;
+            color: #e0e0e0;
         }
 
         .instruction-input:focus {
@@ -149,9 +151,13 @@
             border-color: #f39c12;
         }
 
+        .instruction-input::placeholder {
+            color: #9ca3af;
+        }
+
         .action-buttons {
             padding: 20px;
-            background: #f8f9fa;
+            background: #2a2a3e;
         }
 
         .btn {
@@ -188,8 +194,8 @@
         .estimated-time {
             text-align: center;
             padding: 15px;
-            background: #e8f5e8;
-            color: #27ae60;
+            background: #1f2937;
+            color: #10b981;
             margin-bottom: 20px;
             border-radius: 8px;
         }
@@ -205,7 +211,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             display: none;
             justify-content: center;
             align-items: center;
@@ -213,12 +219,13 @@
         }
 
         .modal-content {
-            background: white;
+            background: #1e1e2e;
             padding: 30px;
             border-radius: 12px;
             text-align: center;
             max-width: 90%;
             width: 350px;
+            border: 1px solid #374151;
         }
 
         .success-icon {
@@ -231,17 +238,17 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: #2c3e50;
+            color: #e0e0e0;
         }
 
         .modal-text {
-            color: #666;
+            color: #9ca3af;
             margin-bottom: 20px;
             line-height: 1.5;
         }
 
         .order-number {
-            background: #f8f9fa;
+            background: #374151;
             padding: 10px;
             border-radius: 6px;
             font-weight: bold;
