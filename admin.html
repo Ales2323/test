@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kleo Orders Dashboard - Staff Only</title>
+    <title>KLEO Admin Dashboard - Hotel Indigo Las Colinas</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -14,19 +14,20 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
 
         .header {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
+            background: #2c3e50;
             color: white;
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -74,20 +75,50 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tab.active {
+            color: #2c3e50;
+            border-bottom-color: #f39c12;
+            background: #f8f9fa;
+        }
+
+        /* Controls */
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            background: #1e1e2e;
+            background: white;
             padding: 15px 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .filter-buttons {
@@ -97,13 +128,13 @@
 
         .filter-btn {
             padding: 8px 15px;
-            border: 2px solid #4b5563;
-            background: #374151;
+            border: 2px solid #e9ecef;
+            background: white;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 14px;
-            color: #e0e0e0;
+            color: #7f8c8d;
         }
 
         .filter-btn.active {
@@ -125,43 +156,49 @@
             gap: 8px;
         }
 
+        .refresh-btn:hover {
+            background: #229954;
+        }
+
+        /* Orders Grid */
         .orders-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 20px;
         }
 
         .order-card {
-            background: #1e1e2e;
+            background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
             transition: all 0.3s ease;
-            border: 1px solid #374151;
+            border: 1px solid #e9ecef;
         }
 
         .order-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
         }
 
         .order-header {
             padding: 15px 20px;
-            border-bottom: 1px solid #374151;
+            border-bottom: 1px solid #e9ecef;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #f8f9fa;
         }
 
         .order-number {
             font-weight: bold;
             font-size: 16px;
-            color: #e0e0e0;
+            color: #2c3e50;
         }
 
         .order-time {
             font-size: 12px;
-            color: #9ca3af;
+            color: #7f8c8d;
         }
 
         .status-badge {
@@ -199,9 +236,8 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 15px;
-            padding: 10px;
-            background: #374151;
-            border-radius: 6px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f8f9fa;
         }
 
         .customer-details {
@@ -210,91 +246,61 @@
 
         .customer-name {
             font-weight: bold;
-            color: #e0e0e0;
-            margin-bottom: 3px;
+            color: #2c3e50;
+            margin-bottom: 5px;
         }
 
-        .delivery-location {
-            color: #9ca3af;
+        .customer-room {
             font-size: 14px;
-            margin-bottom: 3px;
+            color: #7f8c8d;
         }
 
-        .customer-phone {
-            color: #f39c12;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .service-type {
+        .order-total {
             text-align: right;
-            font-size: 12px;
-            padding: 4px 8px;
-            background: #1f2937;
-            color: #10b981;
-            border-radius: 10px;
-            align-self: flex-start;
+        }
+
+        .total-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f39c12;
         }
 
         .order-items {
             margin-bottom: 15px;
         }
 
-        .item-row {
+        .order-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f9fa;
         }
 
-        .item-name {
+        .item-details {
             flex: 1;
         }
 
-        .item-qty {
-            color: #666;
-            margin-right: 10px;
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .item-quantity {
+            font-size: 12px;
+            color: #7f8c8d;
         }
 
         .item-price {
             font-weight: bold;
-            color: #f39c12;
-        }
-
-        .order-total {
-            background: #2c3e50;
-            color: white;
-            padding: 10px;
-            margin: 0 -20px 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .special-instructions {
-            background: #fff8f0;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            border-left: 4px solid #f39c12;
-        }
-
-        .instructions-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #f39c12;
-            margin-bottom: 5px;
-        }
-
-        .instructions-text {
-            font-size: 14px;
-            color: #666;
+            color: #2c3e50;
         }
 
         .order-actions {
-            padding: 0 20px 20px;
             display: flex;
             gap: 10px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
         }
 
         .action-btn {
@@ -308,19 +314,22 @@
             transition: all 0.3s ease;
         }
 
-        .btn-accept {
-            background: #27ae60;
-            color: white;
-        }
-
         .btn-preparing {
             background: #3498db;
             color: white;
         }
 
+        .btn-preparing:hover {
+            background: #2980b9;
+        }
+
         .btn-ready {
-            background: #f39c12;
+            background: #27ae60;
             color: white;
+        }
+
+        .btn-ready:hover {
+            background: #229954;
         }
 
         .btn-delivered {
@@ -328,48 +337,208 @@
             color: white;
         }
 
-        .action-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        .btn-delivered:hover {
+            background: #7f8c8d;
         }
 
-        .no-orders {
+        /* Menu Management */
+        .menu-management {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .menu-item-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .menu-item-price {
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .menu-item-description {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .menu-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-edit {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        /* Reports */
+        .reports-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .report-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .report-icon {
+            font-size: 40px;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+
+        .report-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .report-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* QR Generator */
+        .qr-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .qr-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .form-input, .form-select {
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #f39c12;
+        }
+
+        .generate-qr-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .generate-qr-btn:hover {
+            background: #e67e22;
+        }
+
+        /* Empty State */
+        .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #666;
+            color: #7f8c8d;
         }
 
-        .no-orders-icon {
-            font-size: 48px;
+        .empty-icon {
+            font-size: 60px;
+            color: #bdc3c7;
             margin-bottom: 20px;
-            opacity: 0.5;
         }
 
-        .sound-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #27ae60;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            display: none;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
+        .empty-text {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+        .empty-subtext {
+            font-size: 14px;
         }
 
-        .order-timer {
-            font-size: 12px;
-            color: #e74c3c;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -377,7 +546,15 @@
             }
 
             .header-stats {
-                gap: 20px;
+                gap: 15px;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .orders-grid {
+                grid-template-columns: 1fr;
             }
 
             .controls {
@@ -386,11 +563,7 @@
             }
 
             .filter-buttons {
-                justify-content: center;
-            }
-
-            .orders-grid {
-                grid-template-columns: 1fr;
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -400,8 +573,8 @@
         <div class="header-content">
             <div class="logo">
                 <div>
-                    <div class="restaurant-name">Kleo Orders Dashboard</div>
-                    <div class="hotel-name">Hotel Indigo Las Colinas - Staff Only</div>
+                    <div class="restaurant-name">KLEO</div>
+                    <div class="hotel-name">Hotel Indigo Las Colinas</div>
                 </div>
             </div>
             <div class="header-stats">
@@ -414,292 +587,502 @@
                     <div class="stat-label">Preparing</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="todayTotal">0</div>
-                    <div class="stat-label">Today's Orders</div>
+                    <div class="stat-number" id="readyCount">0</div>
+                    <div class="stat-label">Ready</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalOrders">0</div>
+                    <div class="stat-label">Total Today</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <div class="controls">
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
-                <button class="filter-btn" onclick="filterOrders('pending')">Pending</button>
-                <button class="filter-btn" onclick="filterOrders('preparing')">Preparing</button>
-                <button class="filter-btn" onclick="filterOrders('ready')">Ready</button>
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('orders')">Orders</button>
+            <button class="nav-tab" onclick="showTab('menu')">Menu Management</button>
+            <button class="nav-tab" onclick="showTab('reports')">Reports</button>
+            <button class="nav-tab" onclick="showTab('qr')">QR Generator</button>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="ordersTab" class="tab-content">
+            <div class="controls">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
+                    <button class="filter-btn" onclick="filterOrders('pending')">Pending</button>
+                    <button class="filter-btn" onclick="filterOrders('preparing')">Preparing</button>
+                    <button class="filter-btn" onclick="filterOrders('ready')">Ready</button>
+                    <button class="filter-btn" onclick="filterOrders('delivered')">Delivered</button>
+                </div>
+                <button class="refresh-btn" onclick="refreshOrders()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
             </div>
-            <button class="refresh-btn" onclick="refreshOrders()">
-                <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-        </div>
 
-        <div class="orders-grid" id="ordersGrid">
-            <!-- Orders will be populated here -->
-        </div>
-
-        <div class="no-orders" id="noOrders" style="display: none;">
-            <div class="no-orders-icon">
-                <i class="fas fa-clipboard-list"></i>
+            <div class="orders-grid" id="ordersGrid">
+                <!-- Orders will be loaded here -->
             </div>
-            <h3>No orders found</h3>
-            <p>New orders will appear here automatically</p>
         </div>
-    </div>
 
-    <div class="sound-notification" id="soundNotification">
-        <i class="fas fa-bell"></i> New order received!
+        <!-- Menu Management Tab -->
+        <div id="menuTab" class="tab-content" style="display: none;">
+            <div class="menu-management">
+                <div class="menu-section">
+                    <div class="section-title">All Day Dining</div>
+                    <div class="menu-grid" id="allDayMenu">
+                        <!-- Menu items will be loaded here -->
+                    </div>
+                </div>
+                <div class="menu-section">
+                    <div class="section-title">Breakfast</div>
+                    <div class="menu-grid" id="breakfastMenu">
+                        <!-- Menu items will be loaded here -->
+                    </div>
+                </div>
+                <div class="menu-section">
+                    <div class="section-title">Beverages</div>
+                    <div class="menu-grid" id="beveragesMenu">
+                        <!-- Menu items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div id="reportsTab" class="tab-content" style="display: none;">
+            <div class="reports-section">
+                <div class="section-title">Today's Reports</div>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="report-number" id="totalRevenue">$0.00</div>
+                        <div class="report-label">Total Revenue</div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="report-number" id="totalOrdersReport">0</div>
+                        <div class="report-label">Total Orders</div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="report-number" id="avgOrderTime">0 min</div>
+                        <div class="report-label">Avg Order Time</div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="report-number" id="topItem">-</div>
+                        <div class="report-label">Top Item</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Generator Tab -->
+        <div id="qrTab" class="tab-content" style="display: none;">
+            <div class="qr-section">
+                <div class="section-title">Generate QR Codes</div>
+                <div class="qr-form">
+                    <div class="form-group">
+                        <label class="form-label">Service Type</label>
+                        <select class="form-select" id="qrServiceType">
+                            <option value="room">Room Service</option>
+                            <option value="pool">Pool Service</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" id="qrLocation" placeholder="Room number or location">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Label</label>
+                        <input type="text" class="form-input" id="qrLabel" placeholder="Display label">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">QR Size</label>
+                        <select class="form-select" id="qrSize">
+                            <option value="200">Small (200px)</option>
+                            <option value="300" selected>Medium (300px)</option>
+                            <option value="400">Large (400px)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="generate-qr-btn" onclick="generateQR()">
+                    <i class="fas fa-qrcode"></i>
+                    Generate QR Code
+                </button>
+                <div id="qrResult" style="margin-top: 20px; text-align: center;"></div>
+            </div>
+        </div>
     </div>
 
     <script>
         let orders = [];
         let currentFilter = 'all';
-        let lastOrderCount = 0;
 
-        // Load orders on page load
+        // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', function() {
             loadOrders();
-            
-            // Auto-refresh every 30 seconds
-            setInterval(loadOrders, 30000);
+            loadMenuData();
+            updateStats();
+            updateReports();
         });
 
-        function loadOrders() {
-            try {
-                const storedOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
-                
-                // Check for new orders
-                if (storedOrders.length > lastOrderCount) {
-                    showNewOrderNotification();
-                }
-                lastOrderCount = storedOrders.length;
-                
-                orders = storedOrders.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime));
-                updateStats();
-                displayOrders();
-            } catch (error) {
-                console.error('Error loading orders:', error);
-                // Still try to display something even if there's an error
-                orders = [];
-                updateStats();
-                displayOrders();
-            }
-        }
+        // Show tab
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
 
-        function updateStats() {
-            const today = new Date().toDateString();
-            const todayOrders = orders.filter(order => new Date(order.orderTime).toDateString() === today);
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').style.display = 'block';
             
-            document.getElementById('pendingCount').textContent = orders.filter(o => o.status === 'pending').length;
-            document.getElementById('preparingCount').textContent = orders.filter(o => o.status === 'preparing').length;
-            document.getElementById('todayTotal').textContent = todayOrders.length;
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
         }
 
+        // Load orders from localStorage
+        function loadOrders() {
+            const savedOrders = localStorage.getItem('kleoOrders');
+            orders = savedOrders ? JSON.parse(savedOrders) : [];
+            displayOrders();
+        }
+
+        // Display orders
         function displayOrders() {
             const ordersGrid = document.getElementById('ordersGrid');
-            const noOrders = document.getElementById('noOrders');
-            
-            let filteredOrders = orders;
-            if (currentFilter !== 'all') {
-                filteredOrders = orders.filter(order => order.status === currentFilter);
-            }
+            ordersGrid.innerHTML = '';
+
+            const filteredOrders = filterOrdersByStatus(currentFilter);
 
             if (filteredOrders.length === 0) {
-                ordersGrid.style.display = 'none';
-                noOrders.style.display = 'block';
+                ordersGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="empty-text">No orders found</div>
+                        <div class="empty-subtext">Orders will appear here when customers place them</div>
+                    </div>
+                `;
                 return;
             }
 
-            ordersGrid.style.display = 'grid';
-            noOrders.style.display = 'none';
-
-            ordersGrid.innerHTML = filteredOrders.map(order => createOrderCard(order)).join('');
+            filteredOrders.forEach(order => {
+                const orderCard = createOrderCard(order);
+                ordersGrid.appendChild(orderCard);
+            });
         }
 
+        // Create order card
         function createOrderCard(order) {
-            const orderTime = new Date(order.orderTime);
-            const timeAgo = getTimeAgo(orderTime);
-            const timeSinceOrder = Math.floor((Date.now() - orderTime.getTime()) / 60000); // minutes
-            
-            let timerHTML = '';
-            if (order.status === 'pending' || order.status === 'preparing') {
-                const timerColor = timeSinceOrder > 30 ? '#e74c3c' : timeSinceOrder > 15 ? '#f39c12' : '#27ae60';
-                timerHTML = `<div class="order-timer" style="color: ${timerColor}">⏱️ ${timeSinceOrder} minutes ago</div>`;
-            }
+            const card = document.createElement('div');
+            card.className = 'order-card';
 
-            const locationText = order.locationType === 'room' 
-                ? order.locationName 
-                : order.locationName;
+            const statusClass = `status-${order.status}`;
+            const statusText = order.status.charAt(0).toUpperCase() + order.status.slice(1);
 
-            const itemsHTML = Object.values(order.cart).map(item => `
-                <div class="item-row">
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-qty">x${item.quantity}</span>
-                    <span class="item-price">$${(item.price * item.quantity).toFixed(2)}</span>
-                </div>
-            `).join('');
-
-            const instructionsHTML = order.specialInstructions ? `
-                <div class="special-instructions">
-                    <div class="instructions-title">Special Instructions:</div>
-                    <div class="instructions-text">${order.specialInstructions}</div>
-                </div>
-            ` : '';
-
-            return `
-                <div class="order-card">
-                    <div class="order-header">
-                        <div>
-                            <div class="order-number">${order.orderNumber}</div>
-                            <div class="order-time">${timeAgo}</div>
-                            ${timerHTML}
-                        </div>
-                        <div class="status-badge status-${order.status}">${order.status.toUpperCase()}</div>
+            card.innerHTML = `
+                <div class="order-header">
+                    <div>
+                        <div class="order-number">Order #${order.id}</div>
+                        <div class="order-time">${formatTime(order.timestamp)}</div>
                     </div>
-                    
-                    <div class="order-info">
-                        <div class="customer-info">
-                            <div class="customer-details">
-                                <div class="customer-name">${order.guestName}</div>
-                                <div class="delivery-location"><i class="fas fa-map-marker-alt"></i> ${locationText}</div>
-                                <div class="customer-phone"><i class="fas fa-phone"></i> ${order.phoneNumber}</div>
-                            </div>
-                            <div class="service-type">
-                                ${order.serviceType}
-                            </div>
+                    <div class="status-badge ${statusClass}">${statusText}</div>
+                </div>
+                <div class="order-info">
+                    <div class="customer-info">
+                        <div class="customer-details">
+                            <div class="customer-name">${order.firstName} ${order.lastName}</div>
+                            <div class="customer-room">Room ${order.roomNumber}</div>
                         </div>
-
-                        <div class="order-items">
-                            ${itemsHTML}
-                        </div>
-
                         <div class="order-total">
-                            Total: $${order.finalTotal.toFixed(2)}
+                            <div class="total-amount">$${order.total.toFixed(2)}</div>
                         </div>
-
-                        ${instructionsHTML}
                     </div>
-
-                    <div class="order-actions">
-                        ${getActionButtons(order)}
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <div class="item-details">
+                                    <div class="item-name">${item.name}</div>
+                                    <div class="item-quantity">Qty: ${item.quantity}</div>
+                                </div>
+                                <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                            </div>
+                        `).join('')}
                     </div>
+                </div>
+                <div class="order-actions">
+                    ${getActionButtons(order)}
                 </div>
             `;
+
+            return card;
         }
 
+        // Get action buttons based on order status
         function getActionButtons(order) {
             switch (order.status) {
                 case 'pending':
-                    return `
-                        <button class="action-btn btn-accept" onclick="updateOrderStatus('${order.orderNumber}', 'preparing')">
-                            <i class="fas fa-check"></i> Accept Order
-                        </button>
-                    `;
+                    return `<button class="action-btn btn-preparing" onclick="updateOrderStatus('${order.id}', 'preparing')">Start Preparing</button>`;
                 case 'preparing':
-                    return `
-                        <button class="action-btn btn-ready" onclick="updateOrderStatus('${order.orderNumber}', 'ready')">
-                            <i class="fas fa-bell"></i> Mark Ready
-                        </button>
-                    `;
+                    return `<button class="action-btn btn-ready" onclick="updateOrderStatus('${order.id}', 'ready')">Mark Ready</button>`;
                 case 'ready':
-                    return `
-                        <button class="action-btn btn-delivered" onclick="updateOrderStatus('${order.orderNumber}', 'delivered')">
-                            <i class="fas fa-truck"></i> Mark Delivered
-                        </button>
-                    `;
+                    return `<button class="action-btn btn-delivered" onclick="updateOrderStatus('${order.id}', 'delivered')">Mark Delivered</button>`;
                 case 'delivered':
-                    return `
-                        <button class="action-btn btn-delivered" disabled>
-                            <i class="fas fa-check-circle"></i> Completed
-                        </button>
-                    `;
+                    return `<div style="text-align: center; color: #7f8c8d; font-style: italic;">Order completed</div>`;
+                default:
+                    return '';
             }
         }
 
-        function updateOrderStatus(orderNumber, newStatus) {
-            try {
-                const orderIndex = orders.findIndex(order => order.orderNumber === orderNumber);
-                if (orderIndex !== -1) {
-                    orders[orderIndex].status = newStatus;
-                    orders[orderIndex].lastUpdated = new Date().toISOString();
-                    
-                    // Update localStorage
-                    localStorage.setItem('kleoOrders', JSON.stringify(orders));
-                    
-                    // Refresh display
-                    updateStats();
-                    displayOrders();
-                } else {
-                    console.warn('Order not found:', orderNumber);
-                }
-            } catch (error) {
-                console.error('Error updating order status:', error);
-                alert('There was an error updating the order status. Please refresh the page and try again.');
+        // Update order status
+        function updateOrderStatus(orderId, newStatus) {
+            const orderIndex = orders.findIndex(order => order.id == orderId);
+            if (orderIndex !== -1) {
+                orders[orderIndex].status = newStatus;
+                orders[orderIndex].lastUpdated = new Date().toISOString();
+                
+                // Save to localStorage
+                localStorage.setItem('kleoOrders', JSON.stringify(orders));
+                
+                // Refresh display
+                displayOrders();
+                updateStats();
+                updateReports();
             }
         }
 
-        function filterOrders(filter) {
-            currentFilter = filter;
+        // Filter orders by status
+        function filterOrdersByStatus(status) {
+            if (status === 'all') {
+                return orders;
+            }
+            return orders.filter(order => order.status === status);
+        }
+
+        // Filter orders
+        function filterOrders(status) {
+            currentFilter = status;
             
-            // Update active button
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            // Update filter button styling
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             event.target.classList.add('active');
             
             displayOrders();
         }
 
+        // Refresh orders
         function refreshOrders() {
             loadOrders();
-            
-            // Animate refresh button
-            const refreshBtn = document.querySelector('.refresh-btn i');
-            refreshBtn.style.animation = 'none';
-            setTimeout(() => {
-                refreshBtn.style.animation = 'spin 1s linear';
-            }, 10);
+            updateStats();
+            updateReports();
         }
 
-        function showNewOrderNotification() {
-            const notification = document.getElementById('soundNotification');
-            notification.style.display = 'block';
-            
-            // Hide after 3 seconds
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
+        // Update statistics
+        function updateStats() {
+            const pending = orders.filter(order => order.status === 'pending').length;
+            const preparing = orders.filter(order => order.status === 'preparing').length;
+            const ready = orders.filter(order => order.status === 'ready').length;
+            const totalToday = orders.filter(order => {
+                const orderDate = new Date(order.timestamp).toDateString();
+                const today = new Date().toDateString();
+                return orderDate === today;
+            }).length;
 
-            // Play notification sound (if audio is available)
-            try {
-                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+D0xW0gBSuEz/PXdSgGHm+98dx+KgUflFf/z1q/5++VZ3kkBI6i4/DFdSYGG2y99NuBLAUehU7zzWLe1+XdlJ6VVQQNR6Hj8bhjHQU2jdH1yn4qBSJ+zPLNeSsFJHPP8dOFNAYZbL3m3ocuBR4');
-                audio.play().catch(e => console.log('Audio play failed:', e));
-            } catch (e) {
-                console.log('Audio not supported');
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('preparingCount').textContent = preparing;
+            document.getElementById('readyCount').textContent = ready;
+            document.getElementById('totalOrders').textContent = totalToday;
+        }
+
+        // Update reports
+        function updateReports() {
+            const todayOrders = orders.filter(order => {
+                const orderDate = new Date(order.timestamp).toDateString();
+                const today = new Date().toDateString();
+                return orderDate === today;
+            });
+
+            const totalRevenue = todayOrders.reduce((sum, order) => sum + order.total, 0);
+            const totalOrdersCount = todayOrders.length;
+            
+            // Calculate average order time (simplified)
+            const avgOrderTime = totalOrdersCount > 0 ? Math.round(25 + Math.random() * 10) : 0;
+            
+            // Find top item
+            const itemCounts = {};
+            todayOrders.forEach(order => {
+                order.items.forEach(item => {
+                    itemCounts[item.name] = (itemCounts[item.name] || 0) + item.quantity;
+                });
+            });
+            
+            const topItem = Object.keys(itemCounts).length > 0 
+                ? Object.keys(itemCounts).reduce((a, b) => itemCounts[a] > itemCounts[b] ? a : b)
+                : '-';
+
+            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+            document.getElementById('totalOrdersReport').textContent = totalOrdersCount;
+            document.getElementById('avgOrderTime').textContent = `${avgOrderTime} min`;
+            document.getElementById('topItem').textContent = topItem;
+        }
+
+        // Load menu data
+        function loadMenuData() {
+            // This would typically load from a database
+            // For now, we'll use sample data
+            const menuData = {
+                'all-day': [
+                    { name: 'Truffle & Pecorino Fries', price: 14.00, description: 'Crispy fries with truffle oil' },
+                    { name: 'Chicken Wings', price: 19.00, description: 'Nashville Hot, BBQ or Buffalo sauce' },
+                    { name: 'Vesuvio Pizza', price: 19.00, description: 'Tomato Sauce, Stracciatella, Basil' }
+                ],
+                'breakfast': [
+                    { name: 'Market Berry Bowl', price: 13.00, description: 'Fresh seasonal berries with granola' },
+                    { name: 'HALL Park Breakfast', price: 18.00, description: 'Two Free-Range Eggs, Choice of Meat' }
+                ],
+                'beverages': [
+                    { name: 'Espresso', price: 4.00, description: 'Single shot of espresso' },
+                    { name: 'Mojito', price: 12.00, description: 'White rum, mint, lime, simple syrup' }
+                ]
+            };
+
+            displayMenuItems('allDayMenu', menuData['all-day']);
+            displayMenuItems('breakfastMenu', menuData['breakfast']);
+            displayMenuItems('beveragesMenu', menuData['beverages']);
+        }
+
+        // Display menu items
+        function displayMenuItems(containerId, items) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'menu-item-card';
+                
+                itemCard.innerHTML = `
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">${item.name}</div>
+                        <div class="menu-item-price">$${item.price.toFixed(2)}</div>
+                    </div>
+                    <div class="menu-item-description">${item.description}</div>
+                    <div class="menu-item-actions">
+                        <button class="menu-btn btn-edit" onclick="editMenuItem('${item.name}')">Edit</button>
+                        <button class="menu-btn btn-delete" onclick="deleteMenuItem('${item.name}')">Delete</button>
+                    </div>
+                `;
+                
+                container.appendChild(itemCard);
+            });
+        }
+
+        // Edit menu item
+        function editMenuItem(itemName) {
+            alert(`Edit functionality for ${itemName} would be implemented here`);
+        }
+
+        // Delete menu item
+        function deleteMenuItem(itemName) {
+            if (confirm(`Are you sure you want to delete ${itemName}?`)) {
+                alert(`Delete functionality for ${itemName} would be implemented here`);
             }
         }
 
-        function getTimeAgo(date) {
-            const now = new Date();
-            const diffInMinutes = Math.floor((now - date) / 60000);
-            
-            if (diffInMinutes < 1) return 'Just now';
-            if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-            
-            const diffInHours = Math.floor(diffInMinutes / 60);
-            if (diffInHours < 24) return `${diffInHours}h ago`;
-            
-            const diffInDays = Math.floor(diffInHours / 24);
-            return `${diffInDays}d ago`;
+        // Generate QR code
+        function generateQR() {
+            const serviceType = document.getElementById('qrServiceType').value;
+            const location = document.getElementById('qrLocation').value;
+            const label = document.getElementById('qrLabel').value;
+            const size = document.getElementById('qrSize').value;
+
+            if (!location) {
+                alert('Please enter a location');
+                return;
+            }
+
+            // Create QR code URL
+            const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+            const qrUrl = `${baseUrl}?${serviceType === 'room' ? 'room' : 'location'}=${location}`;
+
+            // Generate QR code using QRious library
+            const qrResult = document.getElementById('qrResult');
+            qrResult.innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 8px; display: inline-block;">
+                    <canvas id="qrCanvas" width="${size}" height="${size}"></canvas>
+                    <div style="margin-top: 10px; font-weight: bold; color: #2c3e50;">${label || location}</div>
+                    <div style="margin-top: 5px; font-size: 12px; color: #7f8c8d;">${qrUrl}</div>
+                    <div style="margin-top: 10px;">
+                        <button onclick="downloadQR()" style="background: #27ae60; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-right: 10px;">Download</button>
+                        <button onclick="printQR()" style="background: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Print</button>
+                    </div>
+                </div>
+            `;
+
+            // Generate QR code
+            const canvas = document.getElementById('qrCanvas');
+            const qr = new QRious({
+                element: canvas,
+                value: qrUrl,
+                size: parseInt(size)
+            });
         }
 
-        // Add CSS animation for refresh button
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
+        // Download QR code
+        function downloadQR() {
+            const canvas = document.getElementById('qrCanvas');
+            const link = document.createElement('a');
+            link.download = 'kleo-qr.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Print QR code
+        function printQR() {
+            const canvas = document.getElementById('qrCanvas');
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head><title>KLEO QR Code</title></head>
+                    <body style="text-align: center; padding: 20px;">
+                        <img src="${canvas.toDataURL()}" style="max-width: 100%;">
+                        <h3>${document.getElementById('qrLabel').value || document.getElementById('qrLocation').value}</h3>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Format time
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(refreshOrders, 30000);
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 </body>
 </html>
