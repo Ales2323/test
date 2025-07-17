@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kleo Restaurant - Hotel Indigo Las Colinas</title>
+    <title>KLEO - Hotel Indigo Las Colinas</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -14,109 +14,150 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #e0e0e0;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
-            background: #1e1e2e;
+            background: white;
             min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
+        /* Header - Matching Autograph Collection style */
         .header {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
+            background: #2c3e50;
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .hotel-logo {
-            font-size: 14px;
+        .menu-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .brand {
+            text-align: center;
+            flex: 1;
+        }
+
+        .hotel-name {
+            font-size: 12px;
             opacity: 0.8;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .restaurant-name {
-            font-size: 28px;
+            font-size: 18px;
             font-weight: bold;
-            margin-bottom: 5px;
             color: #f39c12;
         }
 
-        .tagline {
-            font-size: 14px;
-            opacity: 0.9;
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
 
-        .location-display {
-            padding: 20px;
-            background: #2a2a3e;
+        .action-icon {
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
         }
 
-        .location-card {
-            background: #374151;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            border: 2px solid #f39c12;
+        .action-icon:hover {
+            opacity: 1;
         }
 
-        .location-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
+        .loyalty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+        }
+
+        .loyalty-icon {
+            font-size: 16px;
             color: #f39c12;
         }
 
-        .location-title {
-            font-size: 20px;
+        /* Main Info Bar */
+        .main-info {
+            background: #ecf0f1;
+            padding: 20px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        .service-title {
+            font-size: 24px;
             font-weight: bold;
+            color: #2c3e50;
             margin-bottom: 8px;
-            color: #e0e0e0;
         }
 
-        .location-subtitle {
-            font-size: 14px;
-            color: #9ca3af;
+        .hours-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             margin-bottom: 15px;
+            font-size: 14px;
+            color: #27ae60;
         }
 
-        .location-details {
-            background: #4b5563;
-            padding: 15px;
-            border-radius: 8px;
+        .hours-icon {
+            color: #27ae60;
         }
 
-        .detail-row {
+        .more-info {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .delivery-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            align-items: flex-start;
             font-size: 14px;
         }
 
-        .detail-label {
-            color: #9ca3af;
+        .delivery-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .detail-value {
-            color: #e0e0e0;
-            font-weight: bold;
+        .change-location {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .guest-info-section {
+        .delivery-time {
+            color: #2c3e50;
+        }
+
+        /* Guest Information Section */
+        .guest-section {
             padding: 20px;
-            background: #2a2a3e;
+            background: white;
         }
 
         .section-title {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
-            color: #e0e0e0;
+            color: #2c3e50;
         }
 
         .input-group {
@@ -125,293 +166,252 @@
 
         .input-label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
-            color: #e0e0e0;
+            color: #2c3e50;
+            font-size: 14px;
         }
 
         .input-field {
             width: 100%;
             padding: 12px;
-            border: 2px solid #4b5563;
-            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
             font-size: 16px;
             transition: border-color 0.3s ease;
-            background: #374151;
-            color: #e0e0e0;
+            background: white;
         }
 
         .input-field:focus {
             outline: none;
-            border-color: #f39c12;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
 
         .input-field::placeholder {
-            color: #9ca3af;
+            color: #95a5a6;
+        }
+
+        .required {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-left: 5px;
         }
 
         .continue-btn {
             width: 100%;
-            background: linear-gradient(135deg, #f39c12, #e67e22);
+            background: #2c3e50;
             color: white;
             border: none;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 10px;
         }
 
         .continue-btn:hover {
+            background: #34495e;
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
         }
 
         .continue-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
 
-        .hours-info {
-            margin: 20px;
-            padding: 15px;
-            background: #1f2937;
-            border-radius: 8px;
-            border-left: 4px solid #10b981;
-        }
-
-        .hours-title {
-            font-weight: bold;
-            color: #10b981;
-            margin-bottom: 5px;
-        }
-
-        .hours-text {
-            font-size: 14px;
-            color: #e0e0e0;
-        }
-
-        .footer-info {
+        /* Footer */
+        .footer {
             padding: 20px;
             text-align: center;
-            color: #9ca3af;
+            color: #7f8c8d;
             font-size: 12px;
+            background: #ecf0f1;
+            border-top: 1px solid #bdc3c7;
         }
 
-        .loading {
-            text-align: center;
-            padding: 40px 20px;
-            color: #9ca3af;
+        .privacy-link {
+            color: #3498db;
+            text-decoration: none;
         }
 
-        .loading-spinner {
-            font-size: 30px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-            color: #f39c12;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .main-info {
+                padding: 15px;
+            }
+            
+            .guest-section {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
-            <div class="hotel-logo">
-                <i class="fas fa-crown"></i> Hotel Indigo Las Colinas
+            <div class="menu-icon">
+                <i class="fas fa-bars"></i>
             </div>
-            <div class="restaurant-name">Kleo</div>
-            <div class="tagline">Neighborhood Kitchen & Bar</div>
-        </div>
-
-        <div class="loading" id="loadingState">
-            <div class="loading-spinner">
-                <i class="fas fa-spinner"></i>
+            <div class="brand">
+                <div class="hotel-name">HOTEL INDIGO LAS COLINAS</div>
+                <div class="restaurant-name">KLEO</div>
             </div>
-            <div>Detecting your location...</div>
-        </div>
-
-        <div id="mainContent" style="display: none;">
-            <div class="location-display">
-                <div class="location-card">
-                    <div class="location-icon" id="locationIcon">
-                        <i class="fas fa-map-marker-alt"></i>
+            <div class="header-actions">
+                <div class="action-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="action-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="loyalty">
+                    <div class="loyalty-icon">
+                        <i class="fas fa-star"></i>
                     </div>
-                    <div class="location-title" id="locationTitle">Your Location</div>
-                    <div class="location-subtitle">Delivery destination detected</div>
-                    
-                    <div class="location-details">
-                        <div class="detail-row">
-                            <span class="detail-label">Service Type:</span>
-                            <span class="detail-value" id="serviceType">Loading...</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Location:</span>
-                            <span class="detail-value" id="locationName">Loading...</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Estimated Delivery:</span>
-                            <span class="detail-value" id="deliveryTime">25-35 minutes</span>
-                        </div>
-                    </div>
+                    <div>LOYALTY</div>
                 </div>
             </div>
+        </div>
 
-            <div class="guest-info-section">
-                <div class="section-title">Guest Information</div>
+        <!-- Main Info Bar -->
+        <div class="main-info">
+            <div class="service-title">In Room Dining</div>
+            <div class="hours-info">
+                <i class="fas fa-clock hours-icon"></i>
+                <span>• Open - Closes Today at 10:00pm</span>
+                <a href="#" class="more-info">More info ></a>
+            </div>
+            <div class="delivery-info">
+                <div class="delivery-location">
+                    <span>Deliver to: <span id="deliveryLocation">Room</span></span>
+                    <a href="#" class="change-location">
+                        <i class="fas fa-pencil-alt"></i>
+                        Change Location
+                    </a>
+                </div>
+                <div class="delivery-time">
+                    Delivery time: ASAP
+                </div>
+            </div>
+        </div>
+
+        <!-- Guest Information Section -->
+        <div class="guest-section">
+            <div class="section-title">Guest Information</div>
+            <form id="guestForm">
+                <div class="input-group">
+                    <label class="input-label">
+                        Room Number <span class="required">Required</span>
+                    </label>
+                    <input type="text" class="input-field" id="roomNumber" placeholder="Enter your room number" required>
+                </div>
                 
                 <div class="input-group">
-                    <label class="input-label" for="guestName">
-                        <i class="fas fa-user"></i> Guest Name
+                    <label class="input-label">
+                        First Name <span class="required">Required</span>
                     </label>
-                    <input type="text" id="guestName" class="input-field" placeholder="Your name" required>
+                    <input type="text" class="input-field" id="firstName" placeholder="Enter your first name" required>
                 </div>
-
+                
                 <div class="input-group">
-                    <label class="input-label" for="phoneNumber">
-                        <i class="fas fa-phone"></i> Phone Number
+                    <label class="input-label">
+                        Last Name <span class="required">Required</span>
                     </label>
-                    <input type="tel" id="phoneNumber" class="input-field" placeholder="(555) 123-4567">
+                    <input type="text" class="input-field" id="lastName" placeholder="Enter your last name" required>
                 </div>
-
-                <button class="continue-btn" onclick="proceedToMenu()" id="continueBtn" disabled>
-                    Continue to Menu <i class="fas fa-arrow-right"></i>
+                
+                <div class="input-group">
+                    <label class="input-label">Phone Number</label>
+                    <input type="tel" class="input-field" id="phoneNumber" placeholder="Enter your phone number">
+                </div>
+                
+                <button type="submit" class="continue-btn" id="continueBtn">
+                    Continue to Menu
                 </button>
-            </div>
+            </form>
         </div>
 
-        <div class="hours-info">
-            <div class="hours-title">
-                <i class="fas fa-clock"></i> Service Hours
+        <!-- Footer -->
+        <div class="footer">
+            <div>Hotel Indigo's privacy policy & SMS policy regarding Internet information</div>
+            <div style="margin-top: 5px;">
+                <i class="fas fa-circle-check" style="color: #3498db; margin-right: 5px;"></i>
+                <a href="#" class="privacy-link">Your Privacy Choices</a>
             </div>
-            <div class="hours-text">
-                <strong>Room Service:</strong> 24/7<br>
-                <strong>Pool Service:</strong> 7:00 AM - 10:00 PM
-            </div>
-        </div>
-
-        <div class="footer-info">
-            <i class="fas fa-utensils"></i><br>
-            Questions? Call (972) 444-0000<br>
-            Or speak with any hotel team member
         </div>
     </div>
 
     <script>
-        let detectedLocation = null;
+        // Get URL parameters to determine location
+        const urlParams = new URLSearchParams(window.location.search);
+        const room = urlParams.get('room');
+        const location = urlParams.get('location');
+        
+        // Set delivery location based on URL parameters
+        const deliveryLocationElement = document.getElementById('deliveryLocation');
+        if (room) {
+            deliveryLocationElement.textContent = `Room ${room}`;
+            document.getElementById('roomNumber').value = room;
+        } else if (location) {
+            const locationMap = {
+                'main-pool': 'Main Pool',
+                'cabana-1': 'Cabana #1',
+                'cabana-2': 'Cabana #2',
+                'cabana-3': 'Cabana #3',
+                'cabana-4': 'Cabana #4',
+                'hot-tub': 'Hot Tub Area',
+                'pool-bar': 'Pool Bar'
+            };
+            deliveryLocationElement.textContent = locationMap[location] || location;
+        }
 
-        const locationData = {
-            // Room mappings
-            'room-101': { type: 'room', name: 'Room 101', icon: 'fa-bed', service: 'In-Room Dining' },
-            'room-201': { type: 'room', name: 'Room 201', icon: 'fa-bed', service: 'In-Room Dining' },
-            'room-301': { type: 'room', name: 'Room 301', icon: 'fa-bed', service: 'In-Room Dining' },
-            'room-325': { type: 'room', name: 'Room 325', icon: 'fa-bed', service: 'In-Room Dining' },
+        // Form submission
+        document.getElementById('guestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Pool mappings - matching QR generator options
-            'pool-main-pool': { type: 'pool', name: 'Main Pool Area', icon: 'fa-swimming-pool', service: 'Poolside Service' },
-            'pool-cabana-1': { type: 'pool', name: 'Cabana #1', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
-            'pool-cabana-2': { type: 'pool', name: 'Cabana #2', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
-            'pool-cabana-3': { type: 'pool', name: 'Cabana #3', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
-            'pool-cabana-4': { type: 'pool', name: 'Cabana #4', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
-            'pool-hot-tub': { type: 'pool', name: 'Hot Tub Area', icon: 'fa-hot-tub', service: 'Poolside Service' },
-            'pool-pool-bar': { type: 'pool', name: 'Pool Bar', icon: 'fa-cocktail', service: 'Poolside Service' },
+            const guestData = {
+                roomNumber: document.getElementById('roomNumber').value,
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                deliveryLocation: deliveryLocationElement.textContent,
+                timestamp: new Date().toISOString()
+            };
             
-            // Legacy mappings for backward compatibility
-            'pool-main': { type: 'pool', name: 'Main Pool Area', icon: 'fa-swimming-pool', service: 'Poolside Service' },
-            'pool-table-1': { type: 'pool', name: 'Pool Table #1', icon: 'fa-swimming-pool', service: 'Poolside Service' },
-            'pool-table-2': { type: 'pool', name: 'Pool Table #2', icon: 'fa-swimming-pool', service: 'Poolside Service' },
-            'pool-bar': { type: 'pool', name: 'Pool Bar', icon: 'fa-cocktail', service: 'Poolside Service' }
-        };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            detectLocationFromQR();
-            document.getElementById('guestName').addEventListener('input', validateForm);
-            document.getElementById('phoneNumber').addEventListener('input', validateForm);
+            // Store guest data
+            localStorage.setItem('kleoGuestData', JSON.stringify(guestData));
+            
+            // Redirect to menu
+            window.location.href = 'menu.html';
         });
 
-        function detectLocationFromQR() {
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            setTimeout(() => {
-                let locationKey = 'room-301'; // Default fallback
-                
-                try {
-                    if (urlParams.get('room')) {
-                        // Handle room QR codes: ?room=101 -> room-101
-                        locationKey = `room-${urlParams.get('room')}`;
-                    } else if (urlParams.get('location')) {
-                        // Handle pool QR codes: ?location=main-pool -> pool-main-pool
-                        const poolLocation = urlParams.get('location');
-                        locationKey = `pool-${poolLocation}`;
-                    }
-
-                    // Check if the location exists in our data
-                    if (locationData[locationKey]) {
-                        displayLocation(locationKey);
-                    } else {
-                        // Log the issue and fallback to default location
-                        console.warn('Location not found:', locationKey, 'Available locations:', Object.keys(locationData));
-                        displayLocation('room-301');
-                    }
-                } catch (error) {
-                    console.error('Error detecting location:', error);
-                    displayLocation('room-301');
-                }
-            }, 1000);
-        }
-
-        function displayLocation(locationKey) {
-            const location = locationData[locationKey];
-            detectedLocation = { key: locationKey, ...location };
-
-            document.getElementById('locationIcon').innerHTML = `<i class="fas ${location.icon}"></i>`;
-            document.getElementById('locationTitle').textContent = location.name;
-            document.getElementById('serviceType').textContent = location.service;
-            document.getElementById('locationName').textContent = location.name;
-            
-            const deliveryTime = location.type === 'room' ? '15-25 minutes' : '20-30 minutes';
-            document.getElementById('deliveryTime').textContent = deliveryTime;
-
-            document.getElementById('loadingState').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-        }
-
+        // Real-time form validation
+        const requiredFields = ['roomNumber', 'firstName', 'lastName'];
+        const continueBtn = document.getElementById('continueBtn');
+        
         function validateForm() {
-            const guestName = document.getElementById('guestName').value.trim();
-            const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            const continueBtn = document.getElementById('continueBtn');
+            const isValid = requiredFields.every(fieldId => {
+                const field = document.getElementById(fieldId);
+                return field.value.trim() !== '';
+            });
             
-            continueBtn.disabled = !(guestName && phoneNumber && detectedLocation);
+            continueBtn.disabled = !isValid;
         }
-
-        function proceedToMenu() {
-            if (!detectedLocation) {
-                alert('Location not detected. Please try scanning the QR code again.');
-                return;
-            }
-
-            try {
-                const orderData = {
-                    locationKey: detectedLocation.key,
-                    locationType: detectedLocation.type,
-                    locationName: detectedLocation.name,
-                    serviceType: detectedLocation.service,
-                    guestName: document.getElementById('guestName').value.trim(),
-                    phoneNumber: document.getElementById('phoneNumber').value.trim(),
-                    timestamp: new Date().toISOString()
-                };
-
-                localStorage.setItem('kleoOrderData', JSON.stringify(orderData));
-                window.location.href = 'menu.html';
-            } catch (error) {
-                console.error('Error saving order data:', error);
-                alert('There was an error saving your information. Please try again.');
-            }
-        }
+        
+        requiredFields.forEach(fieldId => {
+            document.getElementById(fieldId).addEventListener('input', validateForm);
+        });
+        
+        // Initial validation
+        validateForm();
     </script>
 </body>
 </html>
