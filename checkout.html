@@ -425,11 +425,24 @@
                 const specialInstructions = document.getElementById('specialInstructions').value;
                 orderData.specialInstructions = specialInstructions;
                 
+                // Calculate final pricing
+                const subtotal = orderData.orderTotal;
+                const tax = subtotal * 0.0825; // 8.25% Texas tax
+                const deliveryFee = orderData.locationType === 'room' ? 3.00 : 2.00;
+                const finalTotal = subtotal + tax + deliveryFee;
+                
                 // Generate order number
                 const orderNumber = Date.now().toString().slice(-6);
                 orderData.orderNumber = `KLEO-${orderNumber}`;
                 orderData.orderTime = new Date().toISOString();
+                orderData.lastUpdated = new Date().toISOString();
                 orderData.status = 'pending';
+                
+                // Store calculated totals
+                orderData.subtotal = subtotal;
+                orderData.tax = tax;
+                orderData.deliveryFee = deliveryFee;
+                orderData.finalTotal = finalTotal;
 
                 // Store the order in localStorage (in real app, this would be sent to server)
                 const existingOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');

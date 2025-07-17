@@ -305,13 +305,23 @@
         let detectedLocation = null;
 
         const locationData = {
+            // Room mappings
             'room-101': { type: 'room', name: 'Room 101', icon: 'fa-bed', service: 'In-Room Dining' },
             'room-201': { type: 'room', name: 'Room 201', icon: 'fa-bed', service: 'In-Room Dining' },
             'room-301': { type: 'room', name: 'Room 301', icon: 'fa-bed', service: 'In-Room Dining' },
             'room-325': { type: 'room', name: 'Room 325', icon: 'fa-bed', service: 'In-Room Dining' },
-            'pool-main': { type: 'pool', name: 'Main Pool Area', icon: 'fa-swimming-pool', service: 'Poolside Service' },
+            
+            // Pool mappings - matching QR generator options
+            'pool-main-pool': { type: 'pool', name: 'Main Pool Area', icon: 'fa-swimming-pool', service: 'Poolside Service' },
             'pool-cabana-1': { type: 'pool', name: 'Cabana #1', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
             'pool-cabana-2': { type: 'pool', name: 'Cabana #2', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
+            'pool-cabana-3': { type: 'pool', name: 'Cabana #3', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
+            'pool-cabana-4': { type: 'pool', name: 'Cabana #4', icon: 'fa-umbrella-beach', service: 'Poolside Service' },
+            'pool-hot-tub': { type: 'pool', name: 'Hot Tub Area', icon: 'fa-hot-tub', service: 'Poolside Service' },
+            'pool-pool-bar': { type: 'pool', name: 'Pool Bar', icon: 'fa-cocktail', service: 'Poolside Service' },
+            
+            // Legacy mappings for backward compatibility
+            'pool-main': { type: 'pool', name: 'Main Pool Area', icon: 'fa-swimming-pool', service: 'Poolside Service' },
             'pool-table-1': { type: 'pool', name: 'Pool Table #1', icon: 'fa-swimming-pool', service: 'Poolside Service' },
             'pool-table-2': { type: 'pool', name: 'Pool Table #2', icon: 'fa-swimming-pool', service: 'Poolside Service' },
             'pool-bar': { type: 'pool', name: 'Pool Bar', icon: 'fa-cocktail', service: 'Poolside Service' }
@@ -325,23 +335,26 @@
 
         function detectLocationFromQR() {
             const urlParams = new URLSearchParams(window.location.search);
-            const location = urlParams.get('location') || urlParams.get('room');
             
             setTimeout(() => {
                 let locationKey = 'room-301'; // Default fallback
                 
                 try {
                     if (urlParams.get('room')) {
+                        // Handle room QR codes: ?room=101 -> room-101
                         locationKey = `room-${urlParams.get('room')}`;
                     } else if (urlParams.get('location')) {
-                        locationKey = `pool-${urlParams.get('location')}`;
+                        // Handle pool QR codes: ?location=main-pool -> pool-main-pool
+                        const poolLocation = urlParams.get('location');
+                        locationKey = `pool-${poolLocation}`;
                     }
 
+                    // Check if the location exists in our data
                     if (locationData[locationKey]) {
                         displayLocation(locationKey);
                     } else {
-                        // Fallback to default location
-                        console.warn('Location not found, using default:', locationKey);
+                        // Log the issue and fallback to default location
+                        console.warn('Location not found:', locationKey, 'Available locations:', Object.keys(locationData));
                         displayLocation('room-301');
                     }
                 } catch (error) {

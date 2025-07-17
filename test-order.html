@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Order Generator - Kleo</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #1a1a2e; 
+            color: #e0e0e0; 
+            padding: 20px; 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+        .button { 
+            background: #f39c12; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            margin: 10px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+        }
+        .result { 
+            background: #2a2a3e; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin: 10px 0; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Kleo Order System Test</h1>
+    
+    <h2>Generate Test Orders</h2>
+    <button class="button" onclick="generateTestOrder('room')">Test Room Order</button>
+    <button class="button" onclick="generateTestOrder('pool')">Test Pool Order</button>
+    <button class="button" onclick="clearOrders()">Clear All Orders</button>
+    <button class="button" onclick="viewOrders()">View Current Orders</button>
+    
+    <div id="result" class="result"></div>
+    
+    <h2>Test URLs</h2>
+    <div class="result">
+        <strong>QR Generator:</strong><br>
+        <a href="qr-generator.html" target="_blank">Open QR Generator</a><br><br>
+        
+        <strong>Test Room URLs:</strong><br>
+        <a href="index.html?room=101" target="_blank">Room 101</a><br>
+        <a href="index.html?room=301" target="_blank">Room 301</a><br><br>
+        
+        <strong>Test Pool URLs:</strong><br>
+        <a href="index.html?location=main-pool" target="_blank">Main Pool</a><br>
+        <a href="index.html?location=cabana-1" target="_blank">Cabana #1</a><br>
+        <a href="index.html?location=pool-bar" target="_blank">Pool Bar</a><br><br>
+        
+        <strong>Admin Dashboard:</strong><br>
+        <a href="admin.html" target="_blank">Open Admin Dashboard</a>
+    </div>
+
+    <script>
+        function generateTestOrder(type) {
+            const timestamp = new Date().toISOString();
+            const orderNumber = Date.now().toString().slice(-6);
+            
+            let testOrder;
+            
+            if (type === 'room') {
+                testOrder = {
+                    orderNumber: `KLEO-${orderNumber}`,
+                    guestName: 'John Doe',
+                    phoneNumber: '(555) 123-4567',
+                    locationKey: 'room-301',
+                    locationType: 'room',
+                    locationName: 'Room 301',
+                    serviceType: 'In-Room Dining',
+                    orderTime: timestamp,
+                    lastUpdated: timestamp,
+                    status: 'pending',
+                    specialInstructions: 'Please knock softly',
+                    cart: {
+                        'kleo-burger': {
+                            name: 'Kleo Burger',
+                            price: 24.00,
+                            quantity: 1
+                        },
+                        'truffle-fries': {
+                            name: 'Truffle & Pecorino Fries',
+                            price: 14.00,
+                            quantity: 1
+                        }
+                    },
+                    subtotal: 38.00,
+                    tax: 3.14,
+                    deliveryFee: 3.00,
+                    finalTotal: 44.14
+                };
+            } else {
+                testOrder = {
+                    orderNumber: `KLEO-${orderNumber}`,
+                    guestName: 'Jane Smith',
+                    phoneNumber: '(555) 987-6543',
+                    locationKey: 'pool-cabana-1',
+                    locationType: 'pool',
+                    locationName: 'Cabana #1',
+                    serviceType: 'Poolside Service',
+                    orderTime: timestamp,
+                    lastUpdated: timestamp,
+                    status: 'pending',
+                    specialInstructions: 'Extra ice please',
+                    cart: {
+                        'margarita': {
+                            name: 'Kleo Signature Margarita',
+                            price: 14.00,
+                            quantity: 2
+                        },
+                        'chicken-wings': {
+                            name: 'Chicken Wings',
+                            price: 19.00,
+                            quantity: 1
+                        }
+                    },
+                    subtotal: 47.00,
+                    tax: 3.88,
+                    deliveryFee: 2.00,
+                    finalTotal: 52.88
+                };
+            }
+            
+            // Add to localStorage
+            const existingOrders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
+            existingOrders.push(testOrder);
+            localStorage.setItem('kleoOrders', JSON.stringify(existingOrders));
+            
+            document.getElementById('result').innerHTML = `
+                <strong>Test order created:</strong><br>
+                Order Number: ${testOrder.orderNumber}<br>
+                Type: ${testOrder.serviceType}<br>
+                Location: ${testOrder.locationName}<br>
+                Total: $${testOrder.finalTotal.toFixed(2)}<br>
+                <br>Open admin dashboard to see the order!
+            `;
+        }
+        
+        function clearOrders() {
+            localStorage.removeItem('kleoOrders');
+            document.getElementById('result').innerHTML = '<strong>All orders cleared!</strong>';
+        }
+        
+        function viewOrders() {
+            const orders = JSON.parse(localStorage.getItem('kleoOrders') || '[]');
+            document.getElementById('result').innerHTML = `
+                <strong>Current Orders (${orders.length}):</strong><br>
+                ${orders.map(order => `
+                    ${order.orderNumber} - ${order.guestName} - ${order.locationName} - $${order.finalTotal.toFixed(2)} - ${order.status}
+                `).join('<br>')}
+            `;
+        }
+    </script>
+</body>
+</html>
